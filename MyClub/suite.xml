@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite>
+<suite name="Suite1"> 
+    <test name="ClemsonTest">
+        <classes>
+            <class name="com.clemson.model.EnrollTest" />
+        </classes>
+    </test>
+</suite>

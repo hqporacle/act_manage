@@ -1,0 +1,116 @@
+
+2017-03-26 23:17:02 Commons Daemon procrun stderr initialized
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Server version:        Apache Tomcat/7.0.76
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Server built:          Mar 9 2017 13:49:01 UTC
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Server number:         7.0.76.0
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: OS Name:               Windows 7
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: OS Version:            6.1
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Architecture:          amd64
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Java Home:             C:\Program Files\Java\jre1.8.0_121
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: JVM Version:           1.8.0_121-b13
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: JVM Vendor:            Oracle Corporation
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: CATALINA_BASE:         D:\Tomcat
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: CATALINA_HOME:         D:\Tomcat
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dcatalina.home=D:\Tomcat
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Dcatalina.base=D:\Tomcat
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Djava.endorsed.dirs=D:\Tomcat\endorsed
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Djava.io.tmpdir=D:\Tomcat\temp
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Djava.util.logging.config.file=D:\Tomcat\conf\logging.properties
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: exit
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Xms128m
+Mar 26, 2017 11:17:02 PM org.apache.catalina.startup.VersionLoggerListener log
+INFO: Command line argument: -Xmx256m
+Mar 26, 2017 11:17:02 PM org.apache.catalina.core.AprLifecycleListener lifecycleEvent
+INFO: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: D:\Tomcat\bin;C:\windows\Sun\Java\bin;C:\windows\system32;C:\windows;C:\ProgramData\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Git\cmd;C:\Program Files (x86)\Git\mingw32\bin;C:\Program Files (x86)\Git\usr\bin;D:\gradle\gradle-1.12\bin;C:\Program Files (x86)\Sennheiser\SoftphoneSDK\;C:\Program Files (x86)\Windows Kits\8.0\Windows Performance Toolkit\;;.
+Mar 26, 2017 11:17:03 PM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-bio-8080"]
+Mar 26, 2017 11:17:03 PM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["ajp-bio-8009"]
+Mar 26, 2017 11:17:03 PM org.apache.catalina.startup.Catalina load
+INFO: Initialization processed in 630 ms
+Mar 26, 2017 11:17:03 PM org.apache.catalina.core.StandardService startInternal
+INFO: Starting service Catalina
+Mar 26, 2017 11:17:03 PM org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet Engine: Apache Tomcat/7.0.76
+Mar 26, 2017 11:17:03 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory D:\Tomcat\webapps\docs
+Mar 26, 2017 11:17:03 PM org.apache.catalina.util.SessionIdGeneratorBase createSecureRandom
+INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [185] milliseconds.
+Mar 26, 2017 11:17:03 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deployment of web application directory D:\Tomcat\webapps\docs has finished in 517 ms
+Mar 26, 2017 11:17:03 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory D:\Tomcat\webapps\manager
+Mar 26, 2017 11:17:03 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deployment of web application directory D:\Tomcat\webapps\manager has finished in 85 ms
+Mar 26, 2017 11:17:03 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory D:\Tomcat\webapps\ROOT
+Mar 26, 2017 11:17:03 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deployment of web application directory D:\Tomcat\webapps\ROOT has finished in 63 ms
+Mar 26, 2017 11:17:03 PM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-bio-8080"]
+Mar 26, 2017 11:17:03 PM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["ajp-bio-8009"]
+Mar 26, 2017 11:17:03 PM org.apache.catalina.startup.Catalina start
+INFO: Server startup in 738 ms
+Mar 26, 2017 11:19:13 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive D:\Tomcat\webapps\Clemson-0.0.1-SNAPSHOT.war
+Mar 26, 2017 11:19:14 PM org.apache.catalina.loader.WebappClassLoaderBase validateJarFile
+INFO: validateJarFile(D:\Tomcat\webapps\Clemson-0.0.1-SNAPSHOT\WEB-INF\lib\javax.servlet-3.1.1.jar) - jar not loaded. See Servlet Spec 3.0, section 10.7.2. Offending class: javax/servlet/Servlet.class
+Mar 26, 2017 11:19:16 PM org.apache.catalina.startup.TldConfig execute
+INFO: At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+Mar 26, 2017 11:19:17 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deployment of web application archive D:\Tomcat\webapps\Clemson-0.0.1-SNAPSHOT.war has finished in 3,694 ms
+Mar 26, 2017 11:19:57 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory D:\Tomcat\webapps\New folder
+Mar 26, 2017 11:19:57 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deployment of web application directory D:\Tomcat\webapps\New folder has finished in 71 ms
+Mar 26, 2017 11:20:08 PM org.apache.catalina.startup.HostConfig undeploy
+INFO: Undeploying context [/New folder]
+Mar 26, 2017 11:20:08 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory D:\Tomcat\webapps\Clemson
+Mar 26, 2017 11:20:08 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deployment of web application directory D:\Tomcat\webapps\Clemson has finished in 50 ms
+Mar 26, 2017 11:25:18 PM org.apache.catalina.startup.HostConfig undeploy
+INFO: Undeploying context [/Clemson-0.0.1-SNAPSHOT]
+Mar 26, 2017 11:38:49 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory D:\Tomcat\webapps\clemson
+Mar 26, 2017 11:38:49 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deployment of web application directory D:\Tomcat\webapps\clemson has finished in 78 ms
+Mar 26, 2017 11:50:50 PM org.apache.catalina.startup.HostConfig undeploy
+INFO: Undeploying context [/Clemson]
+Mar 26, 2017 11:50:51 PM org.apache.catalina.startup.HostConfig undeploy
+INFO: Undeploying context [/clemson]
+Mar 26, 2017 11:53:31 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory D:\Tomcat\webapps\Clemson
+Mar 26, 2017 11:53:31 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deployment of web application directory D:\Tomcat\webapps\Clemson has finished in 54 ms
+Mar 26, 2017 11:53:41 PM org.apache.catalina.startup.HostConfig undeploy
+INFO: Undeploying context [/Clemson]
+Mar 26, 2017 11:53:41 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive D:\Tomcat\webapps\Clemson.war
+Mar 26, 2017 11:53:41 PM org.apache.catalina.core.StandardContext startInternal
+SEVERE: One or more Filters failed to start. Full details will be found in the appropriate container log file
+Mar 26, 2017 11:53:41 PM org.apache.catalina.core.StandardContext startInternal
+SEVERE: Context [/Clemson] startup failed due to previous errors
+Mar 26, 2017 11:53:41 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deployment of web application archive D:\Tomcat\webapps\Clemson.war has finished in 604 ms

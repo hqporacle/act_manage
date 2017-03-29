@@ -1,0 +1,55 @@
+Environment Settings
+
+Prerequisites
+1.JDK (I used 1.8)
+2. Eclipse
+3. MySQL
+
+4. Maven：
+If you use our company internet, do not forget to set proxy in settings.xml in "YOUR_MAVEN_PATH/conf". And it could be like this after edition:
+ <proxies>
+    <!-- proxy
+     | Specification for one proxy, to be used in connecting to the network.
+     |
+	  -->
+    <proxy>
+      <id>oracle-http</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>cn-proxy.cn.oracle.com</host>
+      <port>80</port>
+      <nonProxyHosts>localhost|127.0.0.1|*.oracle.com|*.us.oracle.com|*.uk.oracle.com|*.oraclecorp.com|*.oracleportal.com</nonProxyHosts>
+    </proxy>
+       <proxy>
+      <id>oracle-https</id>
+      <active>true</active>
+      <protocol>https</protocol>
+      <host>cn-proxy.cn.oracle.com</host>
+      <port>80</port>
+      <nonProxyHosts>localhost|127.0.0.1|*.oracle.com|*.us.oracle.com|*.uk.oracle.com|*.oraclecorp.com|*.oracleportal.com</nonProxyHosts>
+    </proxy>
+  </proxies>
+  
+  And then correct maven setting.xml path in eclipse.
+
+	Windows --> Preference --> Maven --> User Settings
+	Enter correct setting.xml path in user settings text box
+
+Setting Eclipse
+
+1. import project
+
+Select "Existing Maven Projects" and select the project from your computer.
+
+2. Select the project right click --> run as --> maven install
+This could resolve errors and warnings.
+
+3. Set Tomcat
+
+Select Window --> Preference --> Server --> Runtime Environment --> Add --> Apache Tomcat v7.0 (check "Create a new local server")--> next --> Select "Tomcat installtion directory" --> finish
+
+After adding a new server, double click the server at server tab, in the "Server Locations" tab, select "Use Tomcat installation(takes control of Tomcat installation)". And Save.
+
+4. Run the server.
+
+If you can access from "localhost:8080/Clemson" successfully, it means you are done.

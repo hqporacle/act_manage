@@ -1,0 +1,23 @@
+[2017-03-26 23:16:57] [info]  [ 7144] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-03-26 23:16:57] [info]  [ 7144] Service Tomcat7 name Apache Tomcat 7.0 Tomcat7
+[2017-03-26 23:16:58] [info]  [ 7144] Service 'Tomcat7' installed
+[2017-03-26 23:16:58] [info]  [ 7144] Commons Daemon procrun finished
+[2017-03-26 23:16:58] [info]  [ 7132] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-03-26 23:16:58] [info]  [ 7132] Updating service...
+[2017-03-26 23:16:58] [info]  [ 7132] Service 'Tomcat7' updated
+[2017-03-26 23:16:58] [info]  [ 7132] Update service finished.
+[2017-03-26 23:16:58] [info]  [ 7132] Commons Daemon procrun finished
+[2017-03-26 23:16:59] [info]  [ 8700] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-03-26 23:16:59] [info]  [ 8700] Updating service...
+[2017-03-26 23:16:59] [info]  [ 8700] Service 'Tomcat7' updated
+[2017-03-26 23:16:59] [info]  [ 8700] Update service finished.
+[2017-03-26 23:16:59] [info]  [ 8700] Commons Daemon procrun finished
+[2017-03-26 23:16:59] [info]  [10072] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-03-26 23:16:59] [info]  [10072] Updating service...
+[2017-03-26 23:16:59] [info]  [10072] Service 'Tomcat7' updated
+[2017-03-26 23:16:59] [info]  [10072] Update service finished.
+[2017-03-26 23:16:59] [info]  [10072] Commons Daemon procrun finished
+[2017-03-26 23:17:02] [info]  [ 4896] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-03-26 23:17:02] [info]  [ 4896] Running 'Tomcat7' Service...
+[2017-03-26 23:17:02] [info]  [  664] Starting service...
+[2017-03-26 23:17:03] [info]  [  664] Service started in 1132 ms.
