@@ -4,7 +4,8 @@ Prerequisites
 1.JDK (I used 1.8)
 2. Eclipse
 3. MySQL
-
+	Create a new schema named 'club' in MySQL: use MySQL WorkBench UI or type 'create schema club' in MySQL command line;
+	Import schema with data via command line: mysql -u [username] -p club < [full path of club.sql], e.g., mysql -u root -p club < d:/club.sql
 4. Maven：
 If you use our company internet, do not forget to set proxy in settings.xml in "YOUR_MAVEN_PATH/conf". And it could be like this after edition:
  <proxies>
