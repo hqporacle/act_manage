@@ -26,7 +26,7 @@
             </div>
         </header>
    <div class="oj-flex">
-            <div id="dfml-main-content-area" class="oj-flex-item"> 
+            <div id="main-content-area" class="oj-flex-item"> 
                 <div role="main" class="demo-page-content-area">
                     <div class="oj-flex oj-flex-items-pad oj-sm-justify-content-center" style="padding-top:15%;" >  
                         <div class="oj-flex-item oj-sm-8 oj-md-4 oj-lg-3">    
