@@ -1,8 +1,3 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<% 
-	if(session.getAttribute("student") != null)
-		response.sendRedirect("studentIndex");
-%>
 <html>
 <head>
     <meta charset="utf-8">
