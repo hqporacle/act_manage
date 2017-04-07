@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rs:sqlResource xmlns:rs="http://restsql.org/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://restsql.org/schema SqlResource.xsd ">
+    <query>
+        select id, name, startDate, endDate, deadline,
+        description, status
+        from activity
+    </query>
+    <metadata>
+        <database default="club"/>
+        <table name="activity" role="Parent"/>
+    </metadata>
+</rs:sqlResource>

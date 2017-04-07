@@ -12,8 +12,8 @@ public class AdminServiceImpl implements AdminService {
 	public void insertAdmin(Admin admin){
 		adminMapper.insertAdmin(admin);
 	}
-	public Admin getAdminByLogin(String idcNumber, String adminPassword){
-		Admin admin = adminMapper.getAdminByIDCNumber(idcNumber);
+	public Admin getAdminByLogin(String name, String adminPassword){
+		Admin admin = adminMapper.getAdminByIDCNumber(name);
 		if(admin !=null && admin.getAdminPassword().equals(adminPassword)){
 			return admin;
 		}else{

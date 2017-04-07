@@ -59,7 +59,7 @@ IF (NEW.startDate>NEW.endDate)
 THEN
 set NEW.endDate=NEW.startDate;
 END IF;
-IF (NEW.startDate>NEW.deadline)
+IF (NEW.startDate<NEW.deadline)
 THEN
 set NEW.deadline=NEW.startDate;
 END IF;

@@ -29,5 +29,5 @@ public class Admin {
 	public void setIdcNumber(String idcNumber) {
 		this.idcNumber = idcNumber;
 	}
-	
+
 }

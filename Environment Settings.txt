@@ -1,4 +1,4 @@
-Environment Settings
+﻿Environment Settings
 
 Prerequisites
 1.JDK (I used 1.8)
@@ -54,3 +54,7 @@ After adding a new server, double click the server at server tab, in the "Server
 4. Run the server.
 
 If you can access from "localhost:8080/Clemson" successfully, it means you are done.
+
+Install restsql in maven
+
+run command "mvn install:install-file -Dfile=[full path of restsql.jar, e.g. D:\IDEA\restsql-0.8.12.jar] -DgroupId=org.restsql -DartifactId=restsql -Dversion=0.8.12  -Dpackaging=jar" in project directory

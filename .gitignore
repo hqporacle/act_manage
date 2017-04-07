@@ -131,10 +131,12 @@ generated/
 gitonly/sidekick/output/
 maven-home/
 nbproject/
+target/
 test-coverage/
 test-output/
 test-reports/
 tmp/
+Tomcat/
 work/
 
 # APMS Specific Information follows

@@ -1,11 +1,10 @@
 package com.clemson.controller;
 
- 
-import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.clemson.model.*;
+import com.clemson.model.Class;
+import com.clemson.service.*;
+import org.restsql.core.SqlResourceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,20 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.clemson.model.*;
-import com.clemson.model.Class;
-import com.clemson.service.AdminService;
-import com.clemson.service.QuestionService;
-import com.clemson.service.RepoService;
-import com.clemson.service.SchoolClassService;
-import com.clemson.service.SubTestTypeService;
-import com.clemson.service.SubjectService;
-import com.clemson.service.TestArrangeService;
-import com.clemson.service.TypeService;
-import com.clemson.service.TestService;
-import com.clemson.service.TestSchoolRetestService;
-import com.clemson.service.MarkService;
-import com.clemson.service.RetestMarkService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
 public class AdminController {
@@ -55,6 +43,8 @@ public class AdminController {
 	private MarkService markService;
 	@Autowired
 	private RetestMarkService retestMarkService;
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(value="/adminLogin", method=RequestMethod.GET)
 	public String adminLogin(Model model) {
@@ -65,14 +55,14 @@ public class AdminController {
 	
 	@ResponseBody
 	@RequestMapping(value="/adminLogin", method=RequestMethod.POST, produces="text/html;charset=UTF-8")
-	public String adminLogin(@ModelAttribute("admin") Admin admin, HttpServletRequest request) {
-		Admin adminLogin = adminService.getAdminByLogin(admin.getIdcNumber(), admin.getAdminPassword());
-	    if (adminLogin != null) {
-	    	HttpSession session = request.getSession(true);
-			session.setAttribute("admin", adminLogin);
-			return "<script type='text/javascript'>window.location.href='adminIndex';</script>";
-	    } else {
-	    	return "<script type='text/javascript'>alert('用户名或密码错误，请重新输入！');window.history.back(-1);</script>";
+	public String adminLogin(@ModelAttribute("user") User user, HttpServletRequest request) throws SqlResourceException {
+		User userLogin = userService.getUserByLogin(user.getName(), user.getPassword());
+		if (userLogin != null) {
+			HttpSession session = request.getSession(true);
+			session.setAttribute("user", userLogin);
+			return "<script type='text/javascript'>window.location.href='studentIndex';</script>";
+		} else {
+			return "<script type='text/javascript'>alert('用户名或密码错误，请重新输入！');window.history.back(-1);</script>";
 	    }
 	}
 	
