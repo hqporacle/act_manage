@@ -8,6 +8,7 @@ requirejs.config({
         'jqueryui-amd': 'libs/jquery/jqueryui-amd-1.12.0',
         'promise': 'libs/es6-promise/es6-promise',
         'ojs': 'libs/oj/v3.0.0/debug',
+        'customElements': 'libs/webcomponents/CustomElements',
         'ojL10n': 'libs/oj/v3.0.0/ojL10n',
         'ojtranslations': 'libs/oj/v3.0.0/resources',
         'hammerjs': 'libs/hammer/hammer-2.0.8',

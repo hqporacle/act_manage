@@ -6,11 +6,15 @@ requirejs.config({
         'komapping': 'libs/knockout/knockout.mapping-latest.debug',
         'jquery': 'libs/jquery/jquery-3.1.1',
         'jqueryui-amd': 'libs/jquery/jqueryui-amd-1.12.0',
+        'dnd-polyfill': 'libs/dnd-polyfill/dnd-polyfill-1.0.0.min',
         'promise': 'libs/es6-promise/es6-promise',
+        'basemaps': 'libs/oj/v3.0.0/resources/internal-deps/dvt/thematicMap/basemaps',
         'ojs': 'libs/oj/v3.0.0/debug',
         'ojL10n': 'libs/oj/v3.0.0/ojL10n',
         'ojtranslations': 'libs/oj/v3.0.0/resources',
+        'customElements': 'libs/webcomponents/CustomElements',
         'hammerjs': 'libs/hammer/hammer-2.0.8',
+        'ojdnd': 'libs/dnd-polyfill/dnd-polyfill-1.0.0',
         'signals': 'libs/js-signals/signals',
         'text': 'libs/require/text'
     },
@@ -27,17 +31,17 @@ requirejs.config({
 });
 
 
-define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojmenu', 'ojs/ojtabs', 'ojs/ojconveyorbelt', 'ojs/ojcollapsible',
-    'ojs/ojtagcloud', 'ojs/ojbutton'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepicker', 'ojs/ojdialog', 'ojs/ojknockout', 'ojs/ojmenu', 'ojs/ojtabs', 'ojs/ojconveyorbelt', 'ojs/ojcollapsible',
+        'ojs/ojselectcombobox', 'ojs/ojbutton'],
         function (oj, ko, $) {
 
             var PROPERTY_DEFS = {
-                NAME: {display: 'name'},
-                STARTED_AT: {display: 'started At'},
-                ENDED_AT: {display: 'ended At'},
-                DESCRIPTION: {display: 'description'},
-                DEADLINE: {display: 'deadline'},
-                STATUS: {display: 'status'},
+                NAME: {display: 'Name'},
+                STARTED_AT: {display: 'Start Time'},
+                ENDED_AT: {display: 'End Time'},
+                DESCRIPTION: {display: 'Description'},
+                DEADLINE: {display: 'Deadline'},
+                STATUS: {display: 'Status'},
             };
 
             var DEFAULT_ITEMS_SHOWN = 25;
@@ -60,10 +64,19 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojmenu', 'ojs
                 self.results = ko.observableArray();
                 self.searchMessage = ko.observable();
                 self.searchValue = ko.observable();
+                
+                self.name = ko.observable();
+                self.description = ko.observable();
+                self.startTime = ko.observable();
+                self.endTime = ko.observable();
+                //self.edit = ko.observable(false);
+
+                
                 self.label = {
+                	create: 'Create+',
                     searchResults: 'searchResult',
                     showResults: function (num1, num2) {
-                        return 'Show Results from' + [num1] + 'to' + [num2];
+                        return 'Showing ' + [num1] + ' of ' + [num2];
                     },
                     resultsFound: function (num1) {
                         return 'results Found' + [num1];
@@ -73,13 +86,37 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojmenu', 'ojs
                     infoSummaryProp: 'Information Summary',
                     searchFor: 'Search For',
                     noResultsFound: 'No Results Found',
-                    all: 'Search Results all'
+                    all: 'Search Results all',
+                    editClub: 'Edit Club',
+                    name: 'Name',
+                    description: 'Description',
+                    startDate: 'Start Date',
+                    endDate: 'End Date',
+                    save: 'Save',
+                    cancel: 'Cancel',
+                    startTimeError: 'Error'
                 };
                 self.doSearch = function() {
                 	
                 };
+                
+                self.doCreate = function() {
+                	self.name("");
+                    self.description("");
+                    self.startTime("");
+                    self.endTime("");
+                	//self.edit = false;
+                	$('#editDialog').ojDialog('open');
+                	$('#text-input1').ojInputText({'disabled': false});
+                };
+                self.saveActivity = function() {
+                	
+                };
+                self.cancelActivity = function() {
+                	$('#editDialog').ojDialog('close');
+                };
                 self.message = {
-                        hint : 'hint'
+                        hint : 'Search'
                 };
                 var numItemsShown = {
                     All: ko.observable(DEFAULT_ITEMS_SHOWN),
@@ -114,6 +151,31 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojmenu', 'ojs
                     var data = JSON.parse(parElem.attr("data"));
                     console.log(action + " : " + data.id);
 
+                    switch (action) {
+                    case "edit":
+                    	$.ajax({
+            				url : "activityAdd",
+            				type : "post",
+            				data : "test", 
+            				success:function(data){ 
+            					console.log("success");
+            					}
+            				});	
+                    	self.name("test");
+                        self.description("Spring Outing");
+                        /*self.startTime("04/12/17 11:00 a");
+                        self.endTime("04/14/17 11:00 p");*/                      
+                    	$('#editDialog').ojDialog('open');
+                    	$('#text-input1').ojInputText({'disabled': true});
+                    	
+                    	break;
+                    case "publish":
+                    	break;
+                    case "delete":
+                    	break;
+                    case "join":
+                    	break;
+                    }
                     //perform action
                     //TODO: action?
                    // handle[action](data, latestSearch);
@@ -134,6 +196,37 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojmenu', 'ojs
                         );*/
                 	console.log("Test: ");
                 }
+                
+                self.closeEditDialog = function () {
+                    $('#editDialog_' + tabId).ojDialog('close');
+                };
+                
+                self.validateStartTime = function () {
+                    return {
+                        validate: function (value)
+                        {                            
+                            value = value ? value.trim() : "";                            
+                            self.tempScheduleStartTime = value;
+                            var startTime = oj.IntlConverterUtils.isoToLocalDate(value);
+                            var endTime = oj.IntlConverterUtils.isoToLocalDate(self.tempScheduleEndTime);
+                            if (startTime >= endTime)
+                            {
+                                throw new oj.ValidatorError(self.label.startTimeError);
+                            }
+                            return true;
+                        }
+                    };
+                };
+                
+                self.validateEndTime = function () {
+
+                    return {
+                        validate: function (value)
+                        {
+                            self.tempScheduleEndTime = value;                            
+                        }
+                    };
+                };
                 
                 init(jsonData, route.text);
 
@@ -171,9 +264,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojmenu', 'ojs
                             });*/
                     var arr = new Array();
                     arr[0] = {
+                    		id : "0",
+                    		FIELD_NAME : "test",
+                    		DESCRIPTION_NAME : "I will hold a basketball game"
+                    };
+                    arr[1] = {
                     		id : "1",
                     		FIELD_NAME : "test",
-                    		DESCRIPTION_NAME : "desc"
+                    		DESCRIPTION_NAME : "Spring Outing"
                     };
                     data = {
                     		response : {
@@ -282,9 +380,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojmenu', 'ojs
                 			results : {
                 				NAME : "test name",
                 				STARTED_AT : "10:00",
-                				ENDED_AT : "10:00",
-                				DEADLINE : "10:00",
-                				STATUS : "10:00"
+                				ENDED_AT : "11:00",
+                				DEADLINE : "9:00",
+                				STATUS : "unpblished"
                 			}
                 	};
                 	populateProperties(data);

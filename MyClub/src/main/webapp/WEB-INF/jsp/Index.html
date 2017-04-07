@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="favicon.ico"> 
     <link rel="stylesheet" href="css/libs/oj/v3.0.0/alta/oj-alta-min.css" type="text/css"/>
     
-    <script data-main="js/login" src="js/libs/require/require.js"></script>
+    <script data-main="js/index" src="js/libs/require/require.js"></script>
 </head>
 
 <div id="SearchPanel">
@@ -39,7 +39,7 @@
                             	ojComponent: {
                             		component: 'ojInputText', 
                             		value: searchString }" 
-                            	placeholder="Search DFML Catalog" 
+                            	placeholder="Search" 
                             	class="oj-inputtext-input oj-component-initnode"></div>        
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                 <div class="oj-flex-item searchContents">
                     <div class="oj-flex oj-flex-items-pad">
                         <div class="oj-flex-item oj-sm-8">
-                            <div class="dfmlListItemValue" data-bind="text: description"></div>
+                            <div class="listItemValue" data-bind="text: description"></div>
                         </div>
                         <div class="oj-flex-item oj-sm-4 oj-sm-only-hide">
                             <div data-bind="text: deadline"></div>
