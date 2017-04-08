@@ -1,6 +1,7 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" import="java.util.*,com.clemson.model.*"
 	pageEncoding="UTF-8"%>
+<% %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -26,6 +27,22 @@
 		}
 	</style>
 </head>
+<script>
+var arr = new Array();
+var i = 0;
+<c:forEach items="${activityList}" var="activity">
+	arr[i] = {
+			id : "${activity.id}",
+			name : "${activity.name}",
+			startDate : "${activity.startDate}",
+			endDate : "${activity.endDate}",
+			status : "${activity.status}",
+			deadline : "${activity.deadline}",
+			description : "${activity.description}"
+	}
+	i++;
+</c:forEach>
+</script>
 
 <div class="oj-flex oj-sm-flex-wrap-nowrap oj-sm-justify-content-space-between header">
 	<div id="SearchPanel" class="oj-flex-item">
@@ -69,7 +86,7 @@
                 <div class="oj-flex-item searchContents">
                     <div class="oj-flex oj-flex-items-pad">
                         <div class="oj-flex-item oj-sm-8">
-                            <div class="listItemValue" data-bind="text: description"></div>
+                            <div class="listItemValue" data-bind="text: name"></div>
                         </div>
                         <div class="oj-flex-item oj-sm-4 oj-sm-only-hide">
                             <!-- <div data-bind="text: deadline"></div> -->
@@ -123,8 +140,16 @@
 
 <div style="display:none" class="editDialog" data-bind="attr: { id: 'editDialog'}, ojComponent: {component: 'ojDialog', rootAttributes: { style: 'width: 1000px'}}">                
   	<div style="padding: 10px" id="EditForm" >
+       <form data-bind="submit: updateActivity">
+       	<div data-bind="template: {name: 'newActivity-template'}"></div>
+       </form>
+    </div>
+</div>
+
+<div style="display:none" class="editDialog" data-bind="attr: { id: 'addDialog'}, ojComponent: {component: 'ojDialog', rootAttributes: { style: 'width: 1000px'}}">                
+  	<div style="padding: 10px" id="AddForm" >
        <form data-bind="submit: saveActivity">
-       	<div data-bind="template: {name: 'newActivity-template', data: mode = 'edit'}"></div>
+       	<div data-bind="template: {name: 'newActivity-template'}"></div>
        </form>
     </div>
 </div>
@@ -136,50 +161,70 @@
                      
             <div class="oj-flex"> 
               <div class="oj-flex-item">
-                <label for="text-input1" data-bind="text: $parent.label.name"></label>
+                <label for="text-input1" data-bind="text: label.name"></label>
               </div>
               <div class="oj-flex-item">
                 <input id="text-input1" class="schedule-input-text" type="text" data-bind="ojComponent: {component: 'ojInputText',
                                             rootAttributes: {style:'width: 210px;'},
-                                            value:$parent.name , required:true}"/>
+                                            value:name , required:true}"/>
               </div>
             </div>
             <div class="oj-flex"> 
               <div class="oj-flex-item">
-                <label for="text-input2" data-bind="text: $parent.label.description"></label>
+                <label for="text-input2" data-bind="text: label.description"></label>
               </div>
               <div class="oj-flex-item">
                 <textarea id="text-input2" class="schedule-input-text" 
                           data-bind="ojComponent: {component: 'ojTextArea',
                                                    rootAttributes: {style:'width: 210px;'},
-                                                   value:$parent.description , required: true}"></textarea>
+                                                   value:description}"></textarea>
               </div>
             </div>
             
             <h2 class="oj-header-border"></h2>
             <div class="oj-flex"> 
               <div class="oj-flex-item">
-                <label for="startDateTime" data-bind="text: $parent.label.startDate"></label>
+                <label for="startDateTime" data-bind="text: label.startDate"></label>
               </div>
               <div class="oj-flex-item">
-                <input id="startDateTime" data-bind="ojComponent: {component: 'ojInputDateTime',
-                                    value:$parent.startTime , required:true, validators: [$parent.validateStartTime()]}"/> 
+                <input id="startDateTime" data-bind="ojComponent: {component: 'ojInputDate',
+                                    value:startTime , required:true}"/> 
               </div>
             </div>
             <div class="oj-flex"> 
               <div class="oj-flex-item">
-                <label for="endDateTime" data-bind="text: $parent.label.endDate"></label>
+                <label for="endDateTime" data-bind="text: label.endDate"></label>
               </div>
               <div class="oj-flex-item">
-                <input id="endDateTime" data-bind="ojComponent: {component: 'ojInputDateTime', value:$parent.endTime, 
-                       required:true, validators: [$parent.validateEndTime()]}"/>
+                <input id="endDateTime" data-bind="ojComponent: {component: 'ojInputDate', value:endTime, 
+                       required:true}"/>
+              </div>
+            </div>
+            <div class="oj-flex"> 
+              <div class="oj-flex-item">
+                <label for="deadline" data-bind="text: label.deadline"></label>
+              </div>
+              <div class="oj-flex-item">
+                <input id="deadline" data-bind="ojComponent: {component: 'ojInputDate', value:deadline, 
+                       required:true}"/>
+              </div>
+            </div>
+            <div class="oj-flex"> 
+              <div class="oj-flex-item">
+                <label for="status" data-bind="text: label.status"></label>
+              </div>
+              <div class="oj-flex-item">
+                <select id="status" data-bind="ojComponent: {component: 'ojSelect', value:status}">
+                	<option value="1">Not publish</option>
+    				<option value="2">Publish</option>
+  				</select>
               </div>
             </div>
           </div>
         </div>
         <div id="newScheduleActions">
-            <button type = "submit" class="mainButton" data-bind="ojComponent: { component: 'ojButton', label: $parent.label.save }"></button>
-            <button id= "button" data-bind="click: $parent.cancelActivity, ojComponent: { component: 'ojButton', label: $parent.label.cancel }"></button>
+            <button type = "submit" class="mainButton" data-bind="ojComponent: { component: 'ojButton', label: label.save }"></button>
+            <button id= "button" data-bind="click: cancelActivity, ojComponent: { component: 'ojButton', label: label.cancel }"></button>
         </div>
     </div>
     </template>        

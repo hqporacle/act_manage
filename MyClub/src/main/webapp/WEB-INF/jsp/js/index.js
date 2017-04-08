@@ -36,12 +36,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
         function (oj, ko, $) {
 
             var PROPERTY_DEFS = {
-                NAME: {display: 'Name'},
-                STARTED_AT: {display: 'Start Time'},
-                ENDED_AT: {display: 'End Time'},
-                DESCRIPTION: {display: 'Description'},
-                DEADLINE: {display: 'Deadline'},
-                STATUS: {display: 'Status'},
+                startDate: {display: 'Start Time'},
+                endDate: {display: 'End Time'},
+                description: {display: 'Description'},
+                deadline: {display: 'Deadline'},
+                status: {display: 'Status'},
             };
 
             var DEFAULT_ITEMS_SHOWN = 25;
@@ -69,8 +68,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                 self.description = ko.observable();
                 self.startTime = ko.observable();
                 self.endTime = ko.observable();
-                //self.edit = ko.observable(false);
-
+                self.deadline = ko.observable();
+                self.status = ko.observable();
                 
                 self.label = {
                 	create: 'Create+',
@@ -92,12 +91,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                     description: 'Description',
                     startDate: 'Start Date',
                     endDate: 'End Date',
+                    deadline: 'Deadline',
+                    status: 'Publish',
                     save: 'Save',
                     cancel: 'Cancel',
                     startTimeError: 'Error'
                 };
                 self.doSearch = function() {
-                	
+                	//TODO:
                 };
                 
                 self.doCreate = function() {
@@ -105,15 +106,39 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                     self.description("");
                     self.startTime("");
                     self.endTime("");
-                	//self.edit = false;
-                	$('#editDialog').ojDialog('open');
+                    self.deadline("");
+                   	self.status("2");
+                	$('#addDialog').ojDialog('open');
                 	$('#text-input1').ojInputText({'disabled': false});
                 };
+                
                 self.saveActivity = function() {
-                	
+                	 var str ="name=" + self.name() + "&description=" + self.description() + "&status=" + self.status() + "&startDate=" + self.startTime() + "&endDate=" + self.endTime() + "&deadline=" +self.deadline();
+                 	$.ajax({
+         				url : "activityAdd",
+         				type : "post",
+         				data : str, 
+         				success:function(data){ 
+         					$('#addDialog').ojDialog('close');
+         					}
+         				});
                 };
+                
+                self.updateActivity = function() {
+               	 var str ="id="+ self.id + "&name=" + self.name() + "&description=" + self.description() + "&status=" + self.status() + "&startDate=" + self.startTime() + "&endDate=" + self.endTime() + "&deadline=" +self.deadline();
+                	$.ajax({
+        				url : "activityEdit",
+        				type : "post",
+        				data : str, 
+        				success:function(data){ 
+        					$('#editDialog').ojDialog('close');
+        					}
+        				});
+               };
+               
                 self.cancelActivity = function() {
                 	$('#editDialog').ojDialog('close');
+                	$('#addDialog').ojDialog('close');
                 };
                 self.message = {
                         hint : 'Search'
@@ -149,29 +174,30 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                     //get params
                     var action = menuElem.data("action");
                     var data = JSON.parse(parElem.attr("data"));
-                    console.log(action + " : " + data.id);
 
                     switch (action) {
                     case "edit":
-                    	$.ajax({
-            				url : "activityAdd",
-            				type : "post",
-            				data : "test", 
-            				success:function(data){ 
-            					console.log("success");
-            					}
-            				});	
-                    	self.name("test");
-                        self.description("Spring Outing");
-                        /*self.startTime("04/12/17 11:00 a");
-                        self.endTime("04/14/17 11:00 p");*/                      
+                    	self.id = data.id;
+                    	self.name(data.name);
+                        self.description(data.description);
+                        self.status(data.status);
+                        self.startTime(data.startDate);
+                        self.endTime(data.endDate);
+                        self.deadline(data.deadline);
                     	$('#editDialog').ojDialog('open');
                     	$('#text-input1').ojInputText({'disabled': true});
                     	
                     	break;
-                    case "publish":
-                    	break;
                     case "delete":
+                    	var str ="id=" + data.id;
+                    	$.ajax({
+            				url : "activityDelete",
+            				type : "post",
+            				data : str, 
+            				success:function(data){ 
+            					 console.log("Delete it successfully!");
+            					}
+            				});
                     	break;
                     case "join":
                     	break;
@@ -201,6 +227,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                     $('#editDialog_' + tabId).ojDialog('close');
                 };
                 
+                //TODO: need to refactor
                 self.validateStartTime = function () {
                     return {
                         validate: function (value)
@@ -235,50 +262,18 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                     return !text ? ":" : window.encodeURIComponent(text);
                 }
 
-                //TODO: url should be hard code.
-                function getSearchRestAPI(text)
-                {
-                    var searchURL = urlHelper.getUrl("search", {
-                        text: getNameFilterURLParams(window.encodeURIComponent(text))
-                    });
-                    return searchURL;
-                }
-
                 // Private methods
                 function load(searchText) {
                     var searchText = searchText ? searchText : "";
                     latestSearch = searchText;
                     self.searchMessage(self.label.searchFor + "'" + searchText + "' ...");
-
-                  //  var restAPI = getSearchRestAPI(searchText);
-                    //TODO: AJAX
-                    /*bdpApp.xhr("GET", restAPI, null,
-                            {showLoading: true, showGlobalErrorDialog: false,
-                                doneHandler: function (result) {
-                                    computeSearchList(result);
-                                    updateMessage();
-                                },
-                                failHandler: function (result) {
-                                    updateMessage();
-                                }
-                            });*/
-                    var arr = new Array();
-                    arr[0] = {
-                    		id : "0",
-                    		FIELD_NAME : "test",
-                    		DESCRIPTION_NAME : "I will hold a basketball game"
-                    };
-                    arr[1] = {
-                    		id : "1",
-                    		FIELD_NAME : "test",
-                    		DESCRIPTION_NAME : "Spring Outing"
-                    };
                     data = {
                     		response : {
                     			docs : arr
                     		}
                     };
                     computeSearchList(data);
+                    updateMessage();
                 }
 
                 function updateMessage()
@@ -307,6 +302,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                         load(searchText);
                    // });
 
+                	//self.results(arr);
                     if (jsonData) {
                         computeSearchList(jsonData);
                     } else {
@@ -323,7 +319,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
             var allActions = {
                 edit: {action: "edit", label: 'edit', icon: "edit-icon"},
                 delet: {action: "delete", label: 'delete', icon: "delete-icon"},
-                publish: {action: "publish", label: 'publish', icon: "publish-icon"},
                 join: {action: "join", label: 'join', icon: "join-icon"},
             };
 
@@ -340,10 +335,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                 var that = {};
                 that.data = data;
                 that.id = data.id;
-                that.name = data.FIELD_NAME;
-                that.description = data.DESCRIPTION_NAME || "";
+                that.name = data.name;
                 that.actions = ko.computed(function () {
-                    return [allActions.edit, allActions.delet, allActions.publish, allActions.join];
+                    return [allActions.edit, allActions.delet, allActions.join];
                 }, that);
 
                 that.infocard = ko.observable();
@@ -373,42 +367,33 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                 return that;
 
                 function initProperties() {
-                	//TODO: url should be hard code
-                    /*var propertiesQueryCall = bdpApp.constructRestQueryUrlById(spec.propertyQuery, {id: spec.id});
-                    bdpApp.xhr("GET", propertiesQueryCall, null, {doneHandler: populateProperties});*/
-                	var data = {
-                			results : {
-                				NAME : "test name",
-                				STARTED_AT : "10:00",
-                				ENDED_AT : "11:00",
-                				DEADLINE : "9:00",
-                				STATUS : "unpblished"
-                			}
-                	};
-                	populateProperties(data);
+                	populateProperties(spec.data);
                 }
 
                 function populateProperties(data) {
-                    if (data && data.results) {
                         var props = [];
-                        $.each(data.results, function (key, val) {
+                        $.each(data, function (key, val) {
                             var displayName = getDisplayName(key);
                             var displayValue = getDisplayValue(key, val);
                             props.push({key: displayName, name: displayName, value: val, displayValue: displayValue});
                         });
                         that.properties(props);
-                    }
                 }
 
                 function getDisplayName(key) {
-                    return (PROPERTY_DEFS[key] && PROPERTY_DEFS[key].display) || key;
+                    return (PROPERTY_DEFS[key] && PROPERTY_DEFS[key].display);
                 }
 
                 function getDisplayValue(key, value) {
-                    if (PROPERTY_DEFS[key] && PROPERTY_DEFS[key].renderer) {
-                        return PROPERTY_DEFS[key].renderer(value);
+                    if (PROPERTY_DEFS[key]) {                    
+	                    if (key == "status") {
+	                    	if (value == "1")
+	                    		return "Editing";
+	                    	if (value == "2")
+	                    		return "Published";
+	                    }
+	                    return value;
                     }
-                    return value;
                 }
             }
 
