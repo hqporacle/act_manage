@@ -15,15 +15,15 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
 
     @Override
-    public void insertAdmin(User user) throws SqlResourceException {
+    public void insertUser(User user) throws SqlResourceException {
         System.out.println("Insert a new user");
 
         // Get the resource object
         final SqlResource sqlResource = Factory.getSqlResource("User");
 
         // Create the row
-        final List<RequestValue> params = new ArrayList<RequestValue>(3);
-        params.add(new RequestValue("name", user.getName()));
+        final List<RequestValue> params = new ArrayList<RequestValue>();
+        params.add(new RequestValue("username", user.getName()));
         params.add(new RequestValue("password", user.getPassword()));
         params.add(new RequestValue("real_name", user.getRealName()));
         params.add(new RequestValue("role", user.getRole()));
@@ -48,8 +48,8 @@ public class UserServiceImpl implements UserService {
         SqlResource sqlResource = Factory.getSqlResource("User");
 
         // Create the request
-        List<RequestValue> params = new ArrayList<RequestValue>(1);
-        params.add(new RequestValue("name", name, RequestValue.Operator.Equals));
+        List<RequestValue> params = new ArrayList<RequestValue>();
+        params.add(new RequestValue("username", name, RequestValue.Operator.Equals));
         List<RequestValue> resId = null;
         List<List<RequestValue>> childrenParams = null;
         RequestLogger requestLogger = Factory.getRequestLogger();

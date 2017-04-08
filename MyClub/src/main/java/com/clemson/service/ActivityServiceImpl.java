@@ -79,7 +79,7 @@ public class ActivityServiceImpl implements ActivityService {
         final List<RequestValue> resIds = new ArrayList<RequestValue>(1);
         resIds.add(new RequestValue("id", activity.getId()));
         params.clear();
-        params.add(new RequestValue("status", CommonInfo.DELETED));
+        params.add(new RequestValue("status", CommonInfo.status.DELETED.ordinal()));
         final List<List<RequestValue>> childrenParams = null;
         final RequestLogger requestLogger = Factory.getRequestLogger();
         final Request request = Factory.getRequest(Request.Type.UPDATE, sqlResource.getName(), resIds,

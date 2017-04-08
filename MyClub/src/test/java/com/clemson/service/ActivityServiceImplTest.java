@@ -1,7 +1,6 @@
 package com.clemson.service;
 
 import com.clemson.model.Activity;
-import com.clemson.util.CommonInfo;
 import org.restsql.core.Config;
 import org.restsql.core.SqlResourceException;
 import org.testng.annotations.Test;
@@ -16,7 +15,6 @@ import static org.testng.Assert.assertEquals;
  * Created by shiwguo on 2017/4/6.
  */
 public class ActivityServiceImplTest {
-
     static {
         // Set the restsql properties location
         if (System.getProperty(Config.KEY_RESTSQL_PROPERTIES) == null)
@@ -37,7 +35,7 @@ public class ActivityServiceImplTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Activity activity = null;
         try {
-            activity = new Activity(0,"unit test activity", sdf.parse("2017-04-10"), sdf.parse("2017-05-10"), sdf.parse("2017-04-05"), "activity for unit test", 1);
+            activity = new Activity(0, "unit test activity", sdf.parse("2017-04-10"), sdf.parse("2017-05-10"), sdf.parse("2017-04-05"), "activity for unit test", 1);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -46,10 +44,10 @@ public class ActivityServiceImplTest {
     }
 
     @Test
-    public void deleteActivityTest() throws SqlResourceException{
-        ActivityService activityService=new ActivityServiceImpl();
-        Activity activity=new Activity(11,null,null,null,null,null, 0);
+    public void deleteActivityTest() throws SqlResourceException {
+        ActivityService activityService = new ActivityServiceImpl();
+        Activity activity = new Activity(11, null, null, null, null, null, 0);
         activityService.deleteActivity(activity);
-        assertEquals(activityService.getAllActivity().size(),3);
+        assertEquals(activityService.getAllActivity().size(), 3);
     }
 }

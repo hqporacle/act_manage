@@ -41,7 +41,7 @@ public class StudentController {
         return "login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/studentlogin", method = RequestMethod.GET)
     public String login(Model model) {
         User user = new User();
         model.addAttribute("user", user);
@@ -49,7 +49,7 @@ public class StudentController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/studentlogin", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String login(@ModelAttribute("user") User user, HttpServletRequest request) throws SqlResourceException {
         User userLogin = userService.getUserByLogin(user.getName(), user.getPassword());
         if (userLogin != null) {
