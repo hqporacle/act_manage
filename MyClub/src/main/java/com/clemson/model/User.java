@@ -5,14 +5,14 @@ package com.clemson.model;
  */
 public class User {
     private int id;
-    private String name;
+    private String username;
     private String password;
     private String realName;
     private int role;
 
     public User(int id, String username, String password, String realName, int role) {
         this.id = id;
-        this.name = username;
+        this.username = username;
         this.password = password;
         this.realName = realName;
         this.role = role;
@@ -25,8 +25,8 @@ public class User {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
@@ -45,8 +45,8 @@ public class User {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {

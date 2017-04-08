@@ -15,6 +15,19 @@ import static org.testng.Assert.assertEquals;
  * Created by shiwguo on 2017/4/6.
  */
 public class ActivityServiceImplTest {
+    @Test
+    public void testEditActivity() throws Exception {
+        ActivityService activityService = new ActivityServiceImpl();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Activity activity = null;
+        try {
+            activity = new Activity(11, "unit update activity", sdf.parse("2017-09-10"), sdf.parse("2017-10-10"), sdf.parse("2017-09-05"), "activity for unit update", 1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        activityService.editActivity(activity);
+    }
+
     static {
         // Set the restsql properties location
         if (System.getProperty(Config.KEY_RESTSQL_PROPERTIES) == null)
@@ -26,7 +39,7 @@ public class ActivityServiceImplTest {
     public void getAllActivityTest() throws SqlResourceException {
         ActivityService activityService = new ActivityServiceImpl();
         List<Activity> result = activityService.getAllActivity();
-        assertEquals(result.size(), 2);
+        assertEquals(result.size(), 3);
     }
 
     @Test
@@ -40,7 +53,7 @@ public class ActivityServiceImplTest {
             e.printStackTrace();
         }
         activityService.insertActivity(activity);
-        assertEquals(activityService.getAllActivity().size(), 3);
+        assertEquals(activityService.getAllActivity().size(), 4);
     }
 
     @Test

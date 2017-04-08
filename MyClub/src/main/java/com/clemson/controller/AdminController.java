@@ -56,7 +56,7 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value="/adminLogin", method=RequestMethod.POST, produces="text/html;charset=UTF-8")
 	public String adminLogin(@ModelAttribute("user") User user, HttpServletRequest request) throws SqlResourceException {
-		User userLogin = userService.getUserByLogin(user.getName(), user.getPassword());
+		User userLogin = userService.getUserByLogin(user.getUsername(), user.getPassword());
 		if (userLogin != null) {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("user", userLogin);

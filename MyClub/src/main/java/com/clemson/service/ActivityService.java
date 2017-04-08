@@ -14,4 +14,6 @@ public interface ActivityService {
     public void insertActivity(Activity activity) throws SqlResourceException;
 
     public void deleteActivity(Activity activity) throws SqlResourceException;
+
+    public void editActivity(Activity activity) throws SqlResourceException;
 }

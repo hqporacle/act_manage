@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
         // Create the row
         final List<RequestValue> params = new ArrayList<RequestValue>();
-        params.add(new RequestValue("username", user.getName()));
+        params.add(new RequestValue("username", user.getUsername()));
         params.add(new RequestValue("password", user.getPassword()));
         params.add(new RequestValue("real_name", user.getRealName()));
         params.add(new RequestValue("role", user.getRole()));

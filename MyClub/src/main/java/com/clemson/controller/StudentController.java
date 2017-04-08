@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static javax.swing.text.StyleConstants.ModelAttribute;
-
 @Controller
 public class StudentController {
     @Autowired
@@ -51,7 +49,7 @@ public class StudentController {
     @ResponseBody
     @RequestMapping(value = "/studentlogin", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String login(@ModelAttribute("user") User user, HttpServletRequest request) throws SqlResourceException {
-        User userLogin = userService.getUserByLogin(user.getName(), user.getPassword());
+        User userLogin = userService.getUserByLogin(user.getUsername(), user.getPassword());
         if (userLogin != null) {
             HttpSession session = request.getSession(true);
             session.setAttribute("user", userLogin);
