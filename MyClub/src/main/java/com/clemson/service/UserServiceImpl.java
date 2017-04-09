@@ -57,12 +57,42 @@ public class UserServiceImpl implements UserService {
                 childrenParams, requestLogger);
 
         // Execute the request
-        Map<String, Object> results = sqlResource.read(request).get(0);
-        User user = new User((Integer) results.get("id"), (String) results.get("name"), (String) results.get("password"), (String) results.get("realName"), (Integer) results.get("role"));
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
+        List<Map<String, Object>> resultList = sqlResource.read(request);
+        if (resultList.size() > 0) {
+            Map<String, Object> results = sqlResource.read(request).get(0);
+            User user = new User((Integer) results.get("id"), (String) results.get("name"), (String) results.get("password"), (String) results.get("realName"), (Integer) results.get("role"));
+            if (user != null && user.getPassword().equals(password)) {
+                return user;
+            } else {
+                return null;
+            }
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<User> getParticipantByActivityId(int activityId) throws SqlResourceException {
+        // Get the resource object
+        SqlResource sqlResource = Factory.getSqlResource("ActivityUser");
+
+        // Create the request
+        List<RequestValue> params = new ArrayList<RequestValue>();
+        params.add(new RequestValue("id",1, RequestValue.Operator.Equals));
+        //params.add(new RequestValue("username", name, RequestValue.Operator.Equals));
+        List<RequestValue> resId = null;
+        List<List<RequestValue>> childrenParams = null;
+        RequestLogger requestLogger = Factory.getRequestLogger();
+        Request request = Factory.getRequest(Request.Type.SELECT, sqlResource.getName(), params, resId,
+                childrenParams, requestLogger);
+
+        // Execute the request
+        List<Map<String, Object>> resultList = sqlResource.read(request);
+        if(resultList.size()>0) {
+            List<User> result = (ArrayList<User>)resultList.get(0).get("users");
+            System.out.println("\t" + requestLogger.getSql());
+            return result;
+        }else
+            return null;
     }
 }

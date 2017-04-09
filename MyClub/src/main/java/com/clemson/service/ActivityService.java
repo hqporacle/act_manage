@@ -1,15 +1,17 @@
 package com.clemson.service;
 
 import com.clemson.model.Activity;
+import com.clemson.model.User;
 import org.restsql.core.SqlResourceException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by shiwguo on 2017/4/6.
  */
 public interface ActivityService {
-    public ArrayList<Activity> getAllActivity() throws SqlResourceException;
+    public List<Activity> getAllActivity() throws SqlResourceException;
 
     public void insertActivity(Activity activity) throws SqlResourceException;
 

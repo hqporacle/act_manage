@@ -2,7 +2,9 @@ package com.clemson.controller;
 
 import com.clemson.model.User;
 import com.clemson.service.UserService;
+import org.json.JSONObject;
 import org.restsql.core.SqlResourceException;
+import org.restsql.core.impl.serial.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +28,7 @@ public class UserController {
     public String userLogin(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        return "userLogin";
+        return "login";
     }
 
     @ResponseBody
@@ -36,9 +38,9 @@ public class UserController {
         if (userLogin != null) {
             HttpSession session = request.getSession(true);
             session.setAttribute("user", userLogin);
-            return "<script type='text/javascript'>window.location.href='activities';</script>";
+            return "success";
         } else {
-            return "<script type='text/javascript'>alert('用户名或密码错误，请重新输入！');window.history.back(-1);</script>";
+            return "login failed";
         }
     }
 }

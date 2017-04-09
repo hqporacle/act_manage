@@ -132,6 +132,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
         				data : str, 
         				success:function(data){ 
         					$('#editDialog').ojDialog('close');
+                            location.reload();
         					}
         				});
                };

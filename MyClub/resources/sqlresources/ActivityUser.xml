@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rs:sqlResource xmlns:rs="http://restsql.org/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://restsql.org/schema SqlResource.xsd ">
+    <query>
+        select activity.id, activity.name,
+        startDate,endDate,deadline,description,status,user.id userId,username,password,real_name,role
+        from activity left outer join participation on activity.id=participation.activity_id left outer join user on
+        participation.user_id=user.id
+    </query>
+    <metadata>
+        <database default="club"/>
+        <table name="activity" role="Parent"/>
+        <table name="user" role="Child"/>
+        <table name="paticipation" role="Join"/>
+    </metadata>
+</rs:sqlResource>

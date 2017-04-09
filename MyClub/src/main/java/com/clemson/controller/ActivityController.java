@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by shiwguo on 2017/4/6.
@@ -32,7 +33,7 @@ public class ActivityController {
     
     @RequestMapping(value="/activities", method=RequestMethod.GET)
     public String activitiesGet(Model model) throws SqlResourceException {
-        ArrayList<Activity> activityList = activityService.getAllActivity();
+        List<Activity> activityList = activityService.getAllActivity();
         model.addAttribute("activityList", activityList);
         return "activities";
     }

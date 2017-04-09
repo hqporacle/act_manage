@@ -63,25 +63,24 @@ require(['jquery', 'knockout', 'ojs/ojcore', 'ojs/ojinputtext', 'ojs/ojknockout'
             if (!trackerObj.focusOnFirstInvalid()) {
                 $.ajax({
                     method: "POST",
-                    url: "/login",
+                    url: "login",
                     data: {
                         username: self.username(),
                         password: self.password()
                     },
                     beforeSend: function (request) {
                         request.setRequestHeader("csrf-token", sessionStorage.token);
-                    },
-                    dataType: "json",
+                    }
                 }).done(function (response) {
-                    if (response.validuser) {
+                    if (response=="success") {
                         sessionStorage.removeItem("token");
                         sessionStorage.removeItem("accessToken");
                         sessionStorage.removeItem("userId");
                         localStorage.removeItem("userName");
                         localStorage.userName = self.username()[0].toUpperCase() + self.username().slice(1).toLowerCase();
-                        window.location = "/index.html" + window.location.hash;
+                        window.location = "activities" + window.location.hash;
                     } else {
-                        self.errorMessage(response.error);
+                        self.errorMessage(response);
                     }
                 }).fail(function (jqXhr, textStatus, errorThrown) {
                     self.errorMessage("Authentication failed");

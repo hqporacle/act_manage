@@ -1,7 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" import="java.util.*,com.clemson.model.*"
 	pageEncoding="UTF-8"%>
-<% %>
+<%
+    if(session.getAttribute("user") == null)
+        response.sendRedirect(request.getContextPath() + "/");
+%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -43,7 +46,7 @@ var i = 0;
 	i++;
 </c:forEach>
 </script>
-
+user role ordinal: <%=((User)session.getAttribute("user")).getRole()%>
 <div class="oj-flex oj-sm-flex-wrap-nowrap oj-sm-justify-content-space-between header">
 	<div id="SearchPanel" class="oj-flex-item">
 	    <div class="oj-form" >

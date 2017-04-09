@@ -5,6 +5,8 @@ import com.clemson.util.CommonInfo;
 import org.restsql.core.Config;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static org.testng.Assert.*;
 
 /**
@@ -33,4 +35,10 @@ public class UserServiceImplTest {
         assertEquals(user.getRole(),CommonInfo.role.ADMIN.ordinal());
     }
 
+    @Test
+    public void testGetParticipantsByActivityId()throws Exception{
+        UserService userService=new UserServiceImpl();
+        List<User> participants=userService.getParticipantByActivityId(1);
+        assertEquals(participants.size(),1);
+    }
 }
