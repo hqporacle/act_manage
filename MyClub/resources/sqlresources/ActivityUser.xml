@@ -3,14 +3,15 @@
                 xsi:schemaLocation="http://restsql.org/schema SqlResource.xsd ">
     <query>
         select activity.id, activity.name,
-        startDate,endDate,deadline,description,status,user.id userId,username,password,real_name,role
-        from activity left outer join participation on activity.id=participation.activity_id left outer join user on
+        startDate,endDate,deadline,description,status,user.id userId,username,password,real_name,role,participation.id
+        pid,activity_id,user_id
+        from activity join participation on activity.id=participation.activity_id join user on
         participation.user_id=user.id
     </query>
     <metadata>
         <database default="club"/>
         <table name="activity" role="Parent"/>
         <table name="user" role="Child"/>
-        <table name="paticipation" role="Join"/>
+        <table name="participation" role="Join"/>
     </metadata>
 </rs:sqlResource>

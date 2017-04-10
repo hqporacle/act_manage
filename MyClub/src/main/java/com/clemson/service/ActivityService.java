@@ -1,10 +1,8 @@
 package com.clemson.service;
 
 import com.clemson.model.Activity;
-import com.clemson.model.User;
 import org.restsql.core.SqlResourceException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,4 +16,6 @@ public interface ActivityService {
     public void deleteActivity(Activity activity) throws SqlResourceException;
 
     public void editActivity(Activity activity) throws SqlResourceException;
+
+    public List<Activity> getActivityByCondition(Activity activity) throws SqlResourceException;
 }

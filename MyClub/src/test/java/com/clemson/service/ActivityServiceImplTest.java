@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -62,5 +63,18 @@ public class ActivityServiceImplTest {
         Activity activity = new Activity(11, null, null, null, null, null, 0);
         activityService.deleteActivity(activity);
         assertEquals(activityService.getAllActivity().size(), 3);
+    }
+
+    @Test
+    public void getActivityByConditionTest()throws SqlResourceException{
+        ActivityService activityService=new ActivityServiceImpl();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Activity activity= null;
+        try {
+            activity = new Activity(11,"unit test",sdf.parse("2017-04-10"),sdf.parse("2017-05-10"),sdf.parse("2017-04-05"),null,1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        assertEquals(activityService.getActivityByCondition(activity).size(),1);
     }
 }

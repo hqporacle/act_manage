@@ -2,10 +2,15 @@ package com.clemson.service;
 
 import com.clemson.model.Activity;
 import com.clemson.util.CommonInfo;
+import com.clemson.util.StringUtil;
 import org.restsql.core.*;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by shiwguo on 2017/4/6.
@@ -117,6 +122,36 @@ public class ActivityServiceImpl implements ActivityService {
 
         System.out.println("\t" + requestLogger.getSql());
         System.out.println("\tupdated " + rowsAffected + " row(s)\n");
+    }
+
+    @Override
+    public List<Activity> getActivityByCondition(Activity activity) throws SqlResourceException {
+        // Create the request
+        List<RequestValue> params = new ArrayList<RequestValue>();
+
+        if (StringUtil.isNotEmpty(activity.getName()))
+            params.add(new RequestValue("name", "%" + activity.getName() + "%"));
+        if (activity.getStartDate() != null)
+            params.add(new RequestValue("startDate", new SimpleDateFormat("yyyy-MM-dd").format(activity.getStartDate()), RequestValue.Operator.Equals));
+        if (activity.getEndDate() != null)
+            params.add(new RequestValue("endDate", new SimpleDateFormat("yyyy-MM-dd").format(activity.getEndDate()), RequestValue.Operator.Equals));
+        if (activity.getDeadline() != null)
+            params.add(new RequestValue("deadline", new SimpleDateFormat("yyyy-MM-dd").format(activity.getDeadline()), RequestValue.Operator.Equals));
+        List<RequestValue> resId = null;
+        List<List<RequestValue>> childrenParams = null;
+        RequestLogger requestLogger = Factory.getRequestLogger();
+        Request request = Factory.getRequest(Request.Type.SELECT, sqlResource.getName(), params, resId,
+                childrenParams, requestLogger);
+        List<Map<String, Object>> resultList = sqlResource.read(request);
+
+        System.out.println("\t" + requestLogger.getSql());
+
+        ArrayList<Activity> activities = new ArrayList<Activity>();
+        for (Map<String, Object> result : resultList) {
+            Activity a = new Activity((Integer) result.get("id"), (String) result.get("name"), (Date) result.get("startDate"), (Date) result.get("endDate"), (Date) result.get("deadline"), (String) result.get("description"), (Integer) result.get("status"));
+            activities.add(activity);
+        }
+        return activities;
     }
 
 }

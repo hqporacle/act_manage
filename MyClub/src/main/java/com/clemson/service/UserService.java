@@ -12,6 +12,4 @@ public interface UserService {
     public void insertUser(User user) throws SqlResourceException;
 
     public User getUserByLogin(String name, String password) throws SqlResourceException;
-
-    public List<User> getParticipantByActivityId(int activityId) throws SqlResourceException;
 }

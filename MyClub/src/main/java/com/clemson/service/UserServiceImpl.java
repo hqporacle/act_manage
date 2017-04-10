@@ -70,29 +70,4 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
-
-    @Override
-    public List<User> getParticipantByActivityId(int activityId) throws SqlResourceException {
-        // Get the resource object
-        SqlResource sqlResource = Factory.getSqlResource("ActivityUser");
-
-        // Create the request
-        List<RequestValue> params = new ArrayList<RequestValue>();
-        params.add(new RequestValue("id",1, RequestValue.Operator.Equals));
-        //params.add(new RequestValue("username", name, RequestValue.Operator.Equals));
-        List<RequestValue> resId = null;
-        List<List<RequestValue>> childrenParams = null;
-        RequestLogger requestLogger = Factory.getRequestLogger();
-        Request request = Factory.getRequest(Request.Type.SELECT, sqlResource.getName(), params, resId,
-                childrenParams, requestLogger);
-
-        // Execute the request
-        List<Map<String, Object>> resultList = sqlResource.read(request);
-        if(resultList.size()>0) {
-            List<User> result = (ArrayList<User>)resultList.get(0).get("users");
-            System.out.println("\t" + requestLogger.getSql());
-            return result;
-        }else
-            return null;
-    }
 }

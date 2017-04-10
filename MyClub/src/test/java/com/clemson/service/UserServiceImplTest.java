@@ -22,23 +22,16 @@ public class UserServiceImplTest {
 
     @Test
     public void testInsertUser() throws Exception {
-        User user=new User(0,"second","2nduser","the second user",CommonInfo.role.USER.ordinal());
-        UserService userService=new UserServiceImpl();
+        User user = new User(0, "second", "2nduser", "the second user", CommonInfo.role.USER.ordinal());
+        UserService userService = new UserServiceImpl();
         userService.insertUser(user);
-        assertEquals(userService.getUserByLogin("second","2nduser").getId(),3);
+        assertEquals(userService.getUserByLogin("second", "2nduser").getId(), 3);
     }
 
     @Test
     public void testGetUserByLogin() throws Exception {
-        UserService userService=new UserServiceImpl();
-        User user=userService.getUserByLogin("admin","123456");
-        assertEquals(user.getRole(),CommonInfo.role.ADMIN.ordinal());
-    }
-
-    @Test
-    public void testGetParticipantsByActivityId()throws Exception{
-        UserService userService=new UserServiceImpl();
-        List<User> participants=userService.getParticipantByActivityId(1);
-        assertEquals(participants.size(),1);
+        UserService userService = new UserServiceImpl();
+        User user = userService.getUserByLogin("admin", "123456");
+        assertEquals(user.getRole(), CommonInfo.role.ADMIN.ordinal());
     }
 }
