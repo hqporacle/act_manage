@@ -1,10 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" import="java.util.*,com.clemson.model.*"
 	pageEncoding="UTF-8"%>
+
 <%
     if(session.getAttribute("user") == null)
-        response.sendRedirect(request.getContextPath() + "/");
+        response.sendRedirect(request.getContextPath() + "/login");
 %>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -31,6 +33,8 @@
 	</style>
 </head>
 <script>
+var userRole = <%=((User)session.getAttribute("user")).getRole()%>;
+var userId = <%=((User)session.getAttribute("user")).getId()%>;
 var arr = new Array();
 var i = 0;
 <c:forEach items="${activityList}" var="activity">
@@ -46,24 +50,65 @@ var i = 0;
 	i++;
 </c:forEach>
 </script>
-user role ordinal: <%=((User)session.getAttribute("user")).getRole()%>
 <div class="oj-flex oj-sm-flex-wrap-nowrap oj-sm-justify-content-space-between header">
 	<div id="SearchPanel" class="oj-flex-item">
-	    <div class="oj-form" >
+	<div class="oj-form-layout">
+	    <div class="oj-form oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-md-labels-inline" >
 	        <form data-bind="submit: doSearch">
 	             <div>
-	                 	<input id="searchString" type="text" 
+	                 	<!-- <input id="searchString" type="text" 
 	                 	data-bind="attr: { placeholder: message.hint}, 
 	                 	ojComponent: {
 	                 		component: 'ojInputSearch', 
 	                 		value: searchValue,
 	                 		rootAttributes: {style:'min-width: 30em; max-width:30em;'}
-	                 	}"/>     
+	                 	}"/>  -->
+	                 	
+	                 	<div class="oj-flex"> 
+			              <div class="oj-flex-item">
+			                <label for="search-name" data-bind="text: label.name"></label>
+			              </div>
+			              <div class="oj-flex-item">
+			                <input id="search-name" class="schedule-input-text" type="text" data-bind="ojComponent: {component: 'ojInputText',
+			                                            rootAttributes: {style:'width: 210px;'},
+			                                            value:searchName}"/>
+			              </div>
+			            </div>
+				         <div class="oj-flex"> 
+			              <div class="oj-flex-item">
+			                <label for="search-startDateTime" data-bind="text: label.startDate"></label>
+			              </div>
+			              <div class="oj-flex-item">
+			                <input id="search-startDateTime" data-bind="ojComponent: {component: 'ojInputDate',
+			                                    value:searchStartTime}"/> 
+			              </div>
+			            </div>
+			            <div class="oj-flex"> 
+			              <div class="oj-flex-item">
+			                <label for="search-endDateTime" data-bind="text: label.endDate"></label>
+			              </div>
+			              <div class="oj-flex-item">
+			                <input id="search-endDateTime" data-bind="ojComponent: {component: 'ojInputDate', value:searchEndTime}"/>
+			              </div>
+			            </div>
+			            <div class="oj-flex"> 
+			              <div class="oj-flex-item">
+			                <label for="search-deadline" data-bind="text: label.deadline"></label>
+			              </div>
+			              <div class="oj-flex-item">
+			                <input id="search-deadline" data-bind="ojComponent: {component: 'ojInputDate', value:searchDeadline}"/>
+			              </div>
+			            </div>    
 	             </div>
+	             <div>
+		            <button type = "submit" class="mainButton" data-bind="ojComponent: { component: 'ojButton', label: 'Search' }"></button>
+		        </div>
 	        </form>
-	    </div>    
+	    </div>   
+	    </div> 
+	    
 	</div>
-	<div class="oj-flex-item ">
+	<div class="oj-flex-item " id = "createButton" style="display:block;">
 		 <button class="mainButton" data-bind="click: doCreate, ojComponent: { component: 'ojButton', label:label.create }">
 		 </button>
 	</div>
@@ -72,9 +117,9 @@ user role ordinal: <%=((User)session.getAttribute("user")).getRole()%>
 <div id="activityResults" >
     <div data-bind="template: { name: 'search-result-template', foreach: resultsAllVisible }"></div>
     <!-- ko if: resultsAllVisible().length > 0 -->
-        <span data-bind="text: label.showResults(resultsAllVisible().length, results().length)"></span>
+        <!-- <span data-bind="text: label.showResults(resultsAllVisible().length, results().length)"></span> -->
        <!-- ko if: resultsAllVisible().length < results().length -->
-            <span class="clickable" data-bind="text: label.showMore, click: function() { showMore();}"></span>
+            <!-- <span class="clickable" data-bind="text: label.showMore, click: function() { showMore();}"></span> -->
        <!-- /ko -->
     <!-- /ko -->
 </div>
@@ -156,6 +201,30 @@ user role ordinal: <%=((User)session.getAttribute("user")).getRole()%>
        </form>
     </div>
 </div>
+
+<div style="display:none" class="participantsDialog" data-bind="attr: { id: 'participantsDialog'}, ojComponent: {component: 'ojDialog', rootAttributes: { style: 'width: 1000px'}}">                
+	<div id="participants">
+		<table id="table" summary="Participants List" aria-label="Participants Table"
+		       data-bind="ojComponent: {component: 'ojTable', 
+		                                data: datasource,
+		                                columnsDefault: {sortable: 'none'},
+		                                columns: [{headerText: 'User ID', 
+		                                           field: 'UserId'},
+		                                		{headerText: 'User Name', 
+		                                           field: 'UserName'},
+		                                          {headerText: 'Force Quit', 
+		                                          template: 'force_quit'}]}">
+		</table>
+	</div>
+</div>
+
+<script type="text/html" id="force_quit">
+     <td>
+       <button class="mainButton" data-bind="click: $parent.forceQuit, ojComponent: { component: 'ojButton', label:'Force Quit' }">
+		</button>
+     </td>
+</script>
+</html>
 
 <template id="newActivity-template">
 <div id="newActivityForm">

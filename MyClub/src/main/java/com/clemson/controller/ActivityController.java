@@ -1,7 +1,12 @@
 package com.clemson.controller;
 
 import com.clemson.model.Activity;
+import com.clemson.model.User;
 import com.clemson.service.ActivityService;
+import com.clemson.service.ParticipationService;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.restsql.core.Config;
 import org.restsql.core.SqlResourceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +22,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +34,8 @@ import java.util.List;
 public class ActivityController {
     @Autowired
     private ActivityService activityService;
+    @Autowired
+    private ParticipationService participationService;
     //private DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -38,6 +47,50 @@ public class ActivityController {
         return "activities";
     }
 
+    @RequestMapping(value="/activitySearch", method=RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public String activitySearch(Model model, HttpServletRequest request) throws SqlResourceException {
+        String activityName = request.getParameter("name");
+        Activity activity = new Activity();
+        if (!activityName.equals("undefined")) {
+        	activity.setName(activityName);        	
+        }
+        Date startDate = new Date();
+        Date endDate = new Date();
+        Date deadline = new Date();
+		try {
+			if (!request.getParameter("startDate").equals("undefined")) {
+				startDate = sdf.parse(request.getParameter("startDate"));	
+				 activity.setStartDate(startDate);
+			}
+			if (!request.getParameter("endDate").equals("undefined")) {
+				endDate = sdf.parse(request.getParameter("endDate"));
+				activity.setEndDate(endDate);
+			}
+			if (!request.getParameter("deadline").equals("undefined")) {
+				deadline = sdf.parse(request.getParameter("deadline"));	
+				 activity.setDeadline(deadline);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        List<Activity> activitySearchResults = activityService.getActivityByCondition(activity);
+        JSONObject responseDetailsJson = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        for (Activity item : activitySearchResults) {
+        	JSONObject detailsJson = new JSONObject();
+            detailsJson.put("id", item.getId());
+            detailsJson.put("name", item.getName());
+            detailsJson.put("description", item.getDescription());
+            detailsJson.put("startDate", item.getStartDate());
+            detailsJson.put("endDate", item.getEndDate());
+            detailsJson.put("deadline", item.getDeadline());
+            jsonArray.put(detailsJson);
+        }
+        responseDetailsJson.put("response", jsonArray);
+        return responseDetailsJson.toString();
+    }
 
     @RequestMapping(value="/activityAdd", method=RequestMethod.POST)
     public String activityAdd(Model model, HttpServletRequest request) throws SqlResourceException {
@@ -104,4 +157,36 @@ public class ActivityController {
         return "activities";
     }
     
+    @RequestMapping(value="/participants", method=RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public String participantsGet(Model model, HttpServletRequest request) throws SqlResourceException {
+    	int id = Integer.parseInt(request.getParameter("id")); 
+    	List<User> users = participationService.getParticipantByActivityId(id);
+    	JSONObject responseDetailsJson = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i<users.size(); i++) {
+        	JSONObject detailsJson = new JSONObject();
+            detailsJson.put("UserId", users.get(i).getId());
+            detailsJson.put("UserName", users.get(i).getUsername());
+            jsonArray.put(detailsJson);
+        }
+        responseDetailsJson.put("response", jsonArray);
+        return responseDetailsJson.toString();
+    }
+    
+    @RequestMapping(value="/participantsQuit", method=RequestMethod.POST)
+    public String participantsQuit(Model model, HttpServletRequest request) throws SqlResourceException {
+    	int userId = Integer.parseInt(request.getParameter("userId")); 
+    	int activityId = Integer.parseInt(request.getParameter("activityId")); 
+    	participationService.deleteParticipantByBothId(activityId, userId);
+        return "activities";
+    }
+    
+    @RequestMapping(value="/participantsJoin", method=RequestMethod.POST)
+    public String participantsJoin(Model model, HttpServletRequest request) throws SqlResourceException {
+    	int userId = Integer.parseInt(request.getParameter("userId")); 
+    	int activityId = Integer.parseInt(request.getParameter("activityId")); 
+    	participationService.insertParticipant(activityId, userId);
+        return "activities";
+    }
 }

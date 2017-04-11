@@ -149,7 +149,7 @@ public class ActivityServiceImpl implements ActivityService {
         ArrayList<Activity> activities = new ArrayList<Activity>();
         for (Map<String, Object> result : resultList) {
             Activity a = new Activity((Integer) result.get("id"), (String) result.get("name"), (Date) result.get("startDate"), (Date) result.get("endDate"), (Date) result.get("deadline"), (String) result.get("description"), (Integer) result.get("status"));
-            activities.add(activity);
+            activities.add(a);
         }
         return activities;
     }

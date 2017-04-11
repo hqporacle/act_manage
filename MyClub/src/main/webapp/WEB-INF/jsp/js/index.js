@@ -31,8 +31,8 @@ requirejs.config({
 });
 
 
-define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepicker', 'ojs/ojdialog', 'ojs/ojknockout', 'ojs/ojmenu', 'ojs/ojtabs', 'ojs/ojconveyorbelt', 'ojs/ojcollapsible',
-        'ojs/ojselectcombobox', 'ojs/ojbutton'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepicker', 'ojs/ojdialog', 'ojs/ojknockout', 'promise', 'ojs/ojtable', 'ojs/ojmenu', 'ojs/ojtabs', 'ojs/ojconveyorbelt', 'ojs/ojcollapsible',
+        'ojs/ojselectcombobox', 'ojs/ojbutton', 'ojs/ojarraytabledatasource'],
         function (oj, ko, $) {
 
             var PROPERTY_DEFS = {
@@ -63,6 +63,12 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                 self.results = ko.observableArray();
                 self.searchMessage = ko.observable();
                 self.searchValue = ko.observable();
+                self.searchName = ko.observable();
+                self.searchDeadline = ko.observable();
+                self.searchStartTime = ko.observable();
+                self.searchEndTime = ko.observable();
+                self.participants = ko.observableArray();
+                self.datasource = new oj.ArrayTableDataSource(self.participants, {idAttribute: 'UserId'});
                 
                 self.name = ko.observable();
                 self.description = ko.observable();
@@ -98,7 +104,20 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                     startTimeError: 'Error'
                 };
                 self.doSearch = function() {
-                	//TODO:
+                	var str ="name=" + self.searchName() + "&startDate=" + self.searchStartTime() + "&endDate=" + self.searchEndTime() + "&deadline=" +self.searchDeadline();
+                 	$.ajax({
+         				url : "activitySearch",
+         				type : "post",
+         				data : str, 
+         				success:function(data){ 
+         					searchResults = {
+                            		response : {
+                            			docs : data.response
+                            		}
+                            };
+         					 computeSearchList(searchResults);
+         					}
+         				});
                 };
                 
                 self.doCreate = function() {
@@ -150,7 +169,13 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
 
                 self.resultsAll = ko.pureComputed(function () {
                     return self.results().filter(function (result) {
-                        return true;
+                    	if (result.data.status == "3")
+                    		return false;
+                    	if (userRole == "1")
+                    		return true;
+                    	if (result.data.status == "2")
+                    		return true;
+                    	return false;
                     });
                 });
                 self.resultsAllVisible = ko.pureComputed(function () {
@@ -201,26 +226,60 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
             				});
                     	break;
                     case "join":
+                    	var str = "userId=" + userId + "&activityId=" + data.id;
+                    	$.ajax({
+            				url : "participantsJoin",
+            				type : "post",
+            				data : str, 
+            				success:function(data){ 
+            					 console.log("Join successfully!");
+            					}
+            				});
+                    	break;
+                    case "view":
+                    	var str = "id=" + data.id;
+                    	self.participantsActivityId = data.id;
+                    	$.ajax({
+            				url : "participants",
+            				type : "get",
+            				data : str, 
+            				success:function(data){ 
+            					self.participants(data.response);
+            					
+            					 $('#participantsDialog').ojDialog('open');
+            					}
+            				});
+                    	break;
+                    case "quit":
+                    	var str = "userId=" + userId + "&activityId=" + data.id;
+                    	$.ajax({
+            				url : "participantsQuit",
+            				type : "post",
+            				data : str, 
+            				success:function(data){ 
+            					 console.log("Quit successfully!");
+            					}
+            				});
                     	break;
                     }
-                    //perform action
-                    //TODO: action?
-                   // handle[action](data, latestSearch);
                 };
 
-                self.handleMenuClick = function () {
-                      // TODO: url
-                       /* bdpApp.xhr("POST", url,
-                                JSON.stringify({
-                                    "objectId": item.id
-                                }),
-                                {
-                                    showLoading: false, showGlobalErrorDialog: false,
-                                    doneHandler: function (result) {
-                                        $("#" + item.id).ojMenu("refresh");
-                                    }
-                                }
-                        );*/
+                self.forceQuit = function(event, data) {
+        	    	var str = "userId=" + event.UserId + "&activityId=" + self.participantsActivityId;
+        	    	$.ajax({
+         				url : "participantsQuit",
+         				type : "post",
+         				data : str, 
+         				success:function(data){ 
+         					console.log("Force quit successfully!");
+         					$('#participantsDialog').ojDialog('close');
+         					}
+         				});
+        	    };
+        	    
+                self.handleMenuClick = function (item) {
+                	item.privileges(userRole);
+                	$("#" + item.id).ojMenu("refresh");
                 	console.log("Test: ");
                 }
                 
@@ -321,6 +380,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                 edit: {action: "edit", label: 'edit', icon: "edit-icon"},
                 delet: {action: "delete", label: 'delete', icon: "delete-icon"},
                 join: {action: "join", label: 'join', icon: "join-icon"},
+                quit: {action: "quit", label: 'quit'},
+                view: {action: "view", label: 'view participants'}
             };
 
             // Search items --------------------------------------------------
@@ -337,8 +398,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
                 that.data = data;
                 that.id = data.id;
                 that.name = data.name;
+                that.privileges=ko.observable();
                 that.actions = ko.computed(function () {
-                    return [allActions.edit, allActions.delet, allActions.join];
+                	if (that.privileges() == "2") {
+                		return [allActions.join, allActions.quit];
+                	} else {
+                		return [allActions.edit, allActions.delet, allActions.join, allActions.quit, allActions.view];
+                	}
+                    
                 }, that);
 
                 that.infocard = ko.observable();
@@ -405,6 +472,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
             // Return the model
            // return {viewModel: SearchResultsViewModel};
             $(document).ready(function () {
-          	  ko.applyBindings(new SearchResultsViewModel());
+            	ko.applyBindings(new SearchResultsViewModel());
+	        	if (userRole == "2")
+	        		document.getElementById("createButton").style.display = "none";
+	        	else 
+	        		document.getElementById("createButton").style.display = "block";
           });
         });

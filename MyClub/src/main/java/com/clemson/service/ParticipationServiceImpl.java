@@ -1,10 +1,12 @@
 package com.clemson.service;
 
+import com.clemson.model.Activity;
 import com.clemson.model.User;
 import org.restsql.core.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,10 +32,15 @@ public class ParticipationServiceImpl implements ParticipationService {
 
         // Execute the request
         List<Map<String, Object>> resultList = sqlResource.read(request);
+        ArrayList<User> results = new ArrayList<User>();
         if (resultList.size() > 0) {
-            List<User> result = (ArrayList<User>) resultList.get(0).get("users");
+           // List<User> result = (ArrayList<User>) resultList.get(0).get("users");
+            for (Map<String, Object> result : (List<Map<String, Object>>)resultList.get(0).get("users")) {
+                User re = new User((Integer) result.get("userId"), (String) result.get("username"), (String) result.get("password"), (String) result.get("real_name"), (Integer) result.get("role"));
+                results.add(re);
+            }
             System.out.println("\t" + requestLogger.getSql());
-            return result;
+            return results;
         } else
             return null;
     }
