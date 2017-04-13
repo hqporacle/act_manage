@@ -3,12 +3,21 @@
     <header role="banner" class="oj-hybrid-applayout-header" data-bind="ojModule: headerConfig">
     </header>
   </div>
+  
   <!-- Content -->
   <div class="oj-applayout-content">
     <div role="main" class="oj-hybrid-applayout-content">
+    	<form id="form1" style="margin-bottom: 0">
+	  		<input id="inputSearch" placeholder="Search..."
+	        data-bind="ojComponent: {
+	          component: 'ojInputSearch',
+	          value: keyword,
+	          optionChange: doSearch,
+          	 rootAttributes: {style:'max-width: 100%'} }">
+   		</form>
        <ul id="listview" aria-label="drill down list"
          data-bind="ojComponent: { component: 'ojListView', scrollPolicyOptions: {scroller: scrollElem},
-           data: dataSource, item: {template: 'note_template'},
+           item: {template: 'note_template'},
            optionChange: gotoContent }">
        </ul>
        

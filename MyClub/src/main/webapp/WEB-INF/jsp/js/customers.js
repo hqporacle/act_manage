@@ -27,7 +27,7 @@ requirejs.config({
     }
 });
 
-define(['knockout', 'appController', 'ojs/ojarraytabledatasource', 'ojs/ojlistview'],
+define(['knockout', 'appController', 'ojs/ojarraytabledatasource', 'ojs/ojlistview', 'ojs/ojknockout', 'ojs/ojselectcombobox'],
   function(ko, app) {
     function ViewModel(moduleParams) {
       
@@ -37,7 +37,30 @@ define(['knockout', 'appController', 'ojs/ojarraytabledatasource', 'ojs/ojlistvi
       // Pass the document body to the ojListView's scrollPolicyOptions to allow for scroll to top
       // when tapping on the status bar for iOS
       self.scrollElem = document.body;
-      
+      self.keyword = ko.observable();
+      self.doSearch = function(event, data) {
+    	  var searchStr ="name=" + self.keyword() + "&startDate=" + "&endDate=" + "&deadline=";
+    	  $.ajax({
+  			url : "activitySearch",
+  			type : "post",
+  			data : searchStr, 
+  			success:function(data){ 
+  				var searchData = new Array();
+  				for (var i = 0; i < data.response.length; i++) {
+  			        searchData.push({
+  			          id: data.response[i].id, 
+  			          name: data.response[i].name, 
+  			          startDate : data.response[i].startDate,
+  			          endDate : data.response[i].endDate,
+  			          status : data.response[i].status,
+  			          deadline : data.response[i].deadline,
+  			          description : data.response[i].description
+  			        })
+  				}
+  				$( "#listview" ).ojListView({ "data": new oj.ArrayTableDataSource(searchData, {idAttribute: 'id'})});
+  			 }
+  			});
+      };
       self.dataSource = new oj.ArrayTableDataSource(app.data, {idAttribute: 'id'});
 
       self.gotoContent = function(event, ui) {

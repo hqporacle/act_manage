@@ -1,0 +1,21 @@
+<div class="oj-applayout-fixed-top">
+    <header role="banner" class="oj-hybrid-applayout-header">
+        <div class="oj-flex-bar-start">
+           <button id = 'backBtn' data-bind="ojComponent: {
+          	component:'ojButton', display: 'icons', chroming: 'half',
+          	icons: {start:'oj-hybrid-applayout-header-icon-back oj-fwk-icon'},
+          	label: 'Back'}, click: goBack">
+          	</button>
+        </div>
+        <div class="oj-hybrid-applayout-bar-title">
+            <h1 class="oj-hybrid-applayout-header-title">
+            	<span style="font-weight: bold" data-bind = "text: pageTitle"></span>
+            </h1>
+        </div>
+        <div class="oj-flex-bar-end">
+            <!-- <button id= 'button' style="margin-right: 0px" data-bind="ojComponent: {component:'ojButton',
+          	label: 'Quit'}, click: quit">
+        	</button> -->
+        </div>
+    </header>
+</div>

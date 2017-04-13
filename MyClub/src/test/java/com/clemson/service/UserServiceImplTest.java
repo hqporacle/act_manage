@@ -22,7 +22,7 @@ public class UserServiceImplTest {
 
     @Test
     public void testInsertUser() throws Exception {
-        User user = new User(0, "second", "2nduser", "the second user", CommonInfo.role.USER.ordinal());
+        User user = new User(0, "second", "2nduser", "the second user", CommonInfo.role.USER.ordinal(), "", "");
         UserService userService = new UserServiceImpl();
         userService.insertUser(user);
         assertEquals(userService.getUserByLogin("second", "2nduser").getId(), 3);

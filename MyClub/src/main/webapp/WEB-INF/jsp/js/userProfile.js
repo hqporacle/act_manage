@@ -27,7 +27,7 @@ requirejs.config({
     }
 });
 
-define(['knockout', 'appController', 'ojs/ojarraytabledatasource', 'ojs/ojlistview'],
+define(['knockout', 'appController', 'ojs/ojarraytabledatasource', 'ojs/ojlistview', 'ojs/ojknockout', 'ojs/ojselectcombobox'],
   function(ko, app) {
     function ViewModel(moduleParams) {
       
@@ -36,16 +36,8 @@ define(['knockout', 'appController', 'ojs/ojarraytabledatasource', 'ojs/ojlistvi
 
       // Pass the document body to the ojListView's scrollPolicyOptions to allow for scroll to top
       // when tapping on the status bar for iOS
-      self.scrollElem = document.body;
-      
-      self.dataSource = new oj.ArrayTableDataSource(app.data, {idAttribute: 'id'});
-
-      self.gotoContent = function(event, ui) {
-         if (ui.option === 'currentItem' && ui.value != null) {
-            app.pendingAnimationType = 'navChild';
-            moduleParams.ojRouter.parentRouter.go('customerInfo/' + ui.value)
-         }
-      };
+      self.phone = userPhone;
+      self.email = userEmail;
 
       self.handleBindingsApplied = function(info) {
         if (app.pendingAnimationType === 'navParent') {

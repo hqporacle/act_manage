@@ -24,6 +24,8 @@
 <script>
 var userRole = <%=((User)session.getAttribute("user")).getRole()%>;
 var userId = <%=((User)session.getAttribute("user")).getId()%>;
+var userEmail = "<%=((User)session.getAttribute("user")).getIdentity()%>";
+var userPhone = "<%=((User)session.getAttribute("user")).getPhone()%>";
 </script>
 <div id="page">
   <div data-bind="ojModule: moduleConfig">

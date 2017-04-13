@@ -42,11 +42,7 @@ define(['knockout', 'ojs/ojcore', 'ojs/ojrouter', 'ojs/ojarraytabledatasource', 
       // Static demo list view data
       self.data = [];
       self.myData = [];
-      /*for (var i = 0; i < 30; i++) {
-        self.data.push({
-          id: i, name: 'Customer ' + (i + 1), content: 'Customer ' + (i + 1) + ' info.'
-        });
-      }*/
+
       var searchStr ="name=" + "&startDate=" + "&endDate=" + "&deadline=";
       $.ajax({
 			url : "activitySearch",
@@ -110,7 +106,7 @@ define(['knockout', 'ojs/ojcore', 'ojs/ojrouter', 'ojs/ojarraytabledatasource', 
        'incidents': {label: 'Incidents', value: {'level': 1}},
        'userProfile': {label: 'User Profile', value: {'level': 1}},
        'customers': {label: 'All Activities', value: {'level': 1}, isDefault: true},
-       'customerInfo': {label: 'Customer Info', value: {'level': 2}},
+       'customerInfo': {label: 'Activity Info', value: {'level': 2}},
        'activityInfo': {label: 'Activity Info', value: {'level': 2}}
       });
       oj.Router.defaults['urlAdapter'] = new oj.Router.urlParamAdapter();
@@ -174,6 +170,8 @@ define(['knockout', 'ojs/ojcore', 'ojs/ojrouter', 'ojs/ojarraytabledatasource', 
           }
         }
       }
+      
+      
       self.getHeaderModel = function() {
         var headerFactory = {
           createViewModel: function(params, valueAccessor) {

@@ -1,29 +1,26 @@
-<div id="customers" class="oj-hybrid-applayout-page">
-    <div class="oj-applayout-fixed-top">
-        <header role="banner" class="oj-hybrid-applayout-header" data-bind="ojModule: headerConfig">
-        </header>
+<div id="userProfile" class="oj-hybrid-applayout-page">
+  <div class="oj-applayout-fixed-top">
+    <header role="banner" class="oj-hybrid-applayout-header" data-bind="ojModule: headerConfig">
+    </header>
+  </div>
+  <!-- Content -->
+  <div class="oj-applayout-content">
+    <div role="main" class="oj-hybrid-applayout-content">
+      <div class="oj-hybrid-padding">
+      <h3 data-bind="text: 'Information'"></h3>
+		<div class="oj-flex-item">
+             <label class="infoCardLabel" data-bind="attr: {for : 'email'}, text: 'Email'"></label>
+         </div>
+         <div align="center" class="oj-flex-item">
+              <span style="font-weight: bold"  data-bind="attr: { id : 'email'}, text: email"></span>
+         </div>
+         <div class="oj-flex-item">
+             <label class="infoCardLabel" data-bind="attr: {for : 'phone'}, text: 'Phone Number'"></label>
+         </div>
+         <div align="center" class="oj-flex-item">
+              <span style="font-weight: bold"  data-bind="attr: { id : 'phone'}, text: phone"></span>
+         </div>
+      </div>
     </div>
-    <!-- Content -->
-    <div class="oj-applayout-content">
-        <div role="main" class="oj-hybrid-applayout-content">
-            <ul id="listview" aria-label="drill down list"
-                data-bind="ojComponent: { component: 'ojListView', scrollPolicyOptions: {scroller: scrollElem},
-           data: dataSource, item: {template: 'note_template'},
-           optionChange: gotoContent }">
-            </ul>
-
-            <script type="text/html" id="note_template">
-                <li data-bind="attr: {id: 'item'+id}">
-                    <div class="oj-flex">
-                        <div class="oj-flex-item" style="font-weight: bold" data-bind="text: name"></div>
-                        <div class="oj-flex-item oj-flex-item-initial">
-                            <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end oj-sm-align-items-center">
-                                <div role="presentation" style="position: relative; margin: 0" class="oj-flex-item oj-fwk-icon oj-listview-drill-icon"></div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </script>
-        </div>
-    </div>
+  </div>
 </div>

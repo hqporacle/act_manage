@@ -32,7 +32,7 @@ define(['knockout', 'appController'],
     function ViewModel() {
 
       var self = this;
-      self.headerConfig = {'viewName': 'header', 'viewModelFactory': app.getHeaderModel()};
+      self.headerConfig = {'viewName': 'customerInfoHeader', 'viewModelFactory': app.getHeaderModel()};
 
       // Setup child router
       self.handleActivated = function(info) {
@@ -53,11 +53,11 @@ define(['knockout', 'appController'],
               stateId,
               {
                 enter: function() {
-                  self.startDate = app.data[parseInt(stateId)].startDate,
-                  self.endDate = app.data[parseInt(stateId)].endDate,
-                  self.status = app.data[parseInt(stateId)].status,
-                  self.deadline = app.data[parseInt(stateId)].deadline,
-                  self.description = app.data[parseInt(stateId)].description
+                  self.startDate = app.data[parseInt(stateId) - 1].startDate,
+                  self.endDate = app.data[parseInt(stateId) - 1].endDate,
+                  self.status = app.data[parseInt(stateId) - 1].status,
+                  self.deadline = app.data[parseInt(stateId) - 1].deadline,
+                  self.description = app.data[parseInt(stateId) - 1].description
                 } 
               },
                self.router

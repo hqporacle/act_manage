@@ -8,6 +8,9 @@
     <div role="main" class="oj-hybrid-applayout-content">
       <div class="oj-hybrid-padding">
       <h3 data-bind="text: 'Information'"></h3>
+      	<div align="right" >
+      		<button id= "button" data-bind="click: join, ojComponent: { component: 'ojButton', label: 'Join' }"></button>
+      	</div>
 		<div class="oj-flex-item">
              <label class="infoCardLabel" data-bind="attr: {for : 'startDate'}, text: 'Start Date'"></label>
          </div>
@@ -32,7 +35,7 @@
          <div align="center" class="oj-flex-item">
               <span  data-bind="attr: { id : 'description'}, text: description"></span>
          </div>
-         <button id= "button" data-bind="click: join, ojComponent: { component: 'ojButton', label: 'Join' }"></button>
+         <!-- <button id= "button" data-bind="click: join, ojComponent: { component: 'ojButton', label: 'Join' }"></button> -->
       </div>
     </div>
   </div>

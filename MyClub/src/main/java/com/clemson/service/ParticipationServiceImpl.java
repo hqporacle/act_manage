@@ -37,7 +37,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         if (resultList.size() > 0) {
             // List<User> result = (ArrayList<User>) resultList.get(0).get("users");
             for (Map<String, Object> result : (List<Map<String, Object>>) resultList.get(0).get("users")) {
-                User re = new User((Integer) result.get("userId"), (String) result.get("username"), (String) result.get("password"), (String) result.get("real_name"), (Integer) result.get("role"));
+                User re = new User((Integer) result.get("userId"), (String) result.get("username"), (String) result.get("password"), (String) result.get("real_name"), (Integer) result.get("role"), "", "");
                 results.add(re);
             }
             System.out.println("\t" + requestLogger.getSql());
