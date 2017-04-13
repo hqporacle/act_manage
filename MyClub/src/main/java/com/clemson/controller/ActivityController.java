@@ -193,4 +193,15 @@ public class ActivityController {
     	participationService.insertParticipant(activityId, userId);
         return "activities";
     }
+    
+    @RequestMapping(value="/updateFeedback", method=RequestMethod.POST)
+    public String updateFeedback(Model model, HttpServletRequest request) throws SqlResourceException {
+    	int userId = Integer.parseInt(request.getParameter("userId")); 
+    	int activityId = Integer.parseInt(request.getParameter("activityId"));
+    	int status = Integer.parseInt(request.getParameter("status"));
+    	String feedback = request.getParameter("feedback");
+    	
+    	participationService.updateParticipant(activityId, userId, status, feedback);
+        return "activities";
+    }
 }

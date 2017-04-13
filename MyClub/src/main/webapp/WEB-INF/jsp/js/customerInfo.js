@@ -47,6 +47,7 @@ define(['knockout', 'appController'],
 
         self.router = parentRouter.createChildRouter('id').configure(function (stateId) {
           var state;
+          self.activityId = stateId;
           if (stateId) {
             state = new oj.RouterState(
               stateId,
@@ -69,7 +70,7 @@ define(['knockout', 'appController'],
       }
 
       self.join = function() {
-    	  var str = "userId=" + userId + "&activityId=" + data.id;
+    	  var str = "userId=" + userId + "&activityId=" + self.activityId;
       	$.ajax({
 				url : "participantsJoin",
 				type : "post",

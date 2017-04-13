@@ -27,13 +27,14 @@ requirejs.config({
     }
 });
 
-define(['knockout', 'appController'],
+define(['knockout', 'appController', 'ojs/ojinputtext'],
   function(ko, app) {
     function ViewModel() {
 
       var self = this;
       self.headerConfig = {'viewName': 'header', 'viewModelFactory': app.getHeaderModel()};
 
+      self.feedback = ko.observable();
       // Setup child router
       self.handleActivated = function(info) {
         if (self.router) {
@@ -45,18 +46,19 @@ define(['knockout', 'appController'],
         // Retrieve list data from module params
         self.data = info.valueAccessor().params.content;
 
-        self.router = parentRouter.createChildRouter('id').configure(function (stateId) {
+        self.router = parentRouter.createChildRouter('myId').configure(function (stateId) {
           var state;
+          self.activityId = stateId;
           if (stateId) {
             state = new oj.RouterState(
               stateId,
               {
                 enter: function() {
-                  self.startDate = app.data[parseInt(stateId)].startDate,
-                  self.endDate = app.data[parseInt(stateId)].endDate,
-                  self.status = app.data[parseInt(stateId)].status,
-                  self.deadline = app.data[parseInt(stateId)].deadline,
-                  self.description = app.data[parseInt(stateId)].description
+                  self.startDate = app.myData[parseInt(stateId)-1].startDate,
+                  self.endDate = app.myData[parseInt(stateId)-1].endDate,
+                  self.status = app.myData[parseInt(stateId)-1].status,
+                  self.deadline = app.myData[parseInt(stateId)-1].deadline,
+                  self.description = app.myData[parseInt(stateId)-1].description
                 } 
               },
                self.router
@@ -68,10 +70,22 @@ define(['knockout', 'appController'],
         return oj.Router.sync();
       }
 
-      self.join = function() {
-    	  var str = "userId=" + userId + "&activityId=" + data.id;
+      self.quit = function() {
+    	  var str = "userId=" + userId + "&activityId=" + self.activityId;
       	$.ajax({
-				url : "participantsJoin",
+				url : "participantsQuit",
+				type : "post",
+				data : str, 
+				success:function(data){ 
+					 console.log("Join successfully!");
+					}
+				});
+      };
+      
+      self.submitFeedback = function() {
+    	  var str = "userId=" + userId + "&activityId=" + self.activityId + "&status=1" + "&feedback=" + self.feedback();
+      	$.ajax({
+				url : "updateFeedback",
 				type : "post",
 				data : str, 
 				success:function(data){ 

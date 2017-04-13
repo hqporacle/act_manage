@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/myActivities", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/myActivities", method = RequestMethod.GET, produces = "application/json")
     public String getMyActivities(Model mOdel, HttpServletRequest request) throws SqlResourceException {
         User user = (User) request.getSession(true).getAttribute("user");
         String activities = participationService.getActivityByUserId(user.getId());

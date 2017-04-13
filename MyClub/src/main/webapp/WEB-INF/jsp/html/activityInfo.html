@@ -1,4 +1,4 @@
-<div id="customerInfo" class="oj-hybrid-applayout-page">
+<div id="activityInfo" class="oj-hybrid-applayout-page">
   <div class="oj-applayout-fixed-top">
     <header role="banner" class="oj-hybrid-applayout-header" data-bind="ojModule: headerConfig">
     </header>
@@ -8,11 +8,11 @@
     <div role="main" class="oj-hybrid-applayout-content">
       <div class="oj-hybrid-padding">
       <h3 data-bind="text: 'Information'"></h3>
-		<div class="oj-flex-item">
+		<div class="oj-flex-item ">
              <label class="infoCardLabel" data-bind="attr: {for : 'startDate'}, text: 'Start Date'"></label>
          </div>
          <div align="center" class="oj-flex-item">
-              <span style="font-weight: bold"  data-bind="attr: { id : 'startDate'}, text: startDate"></span>
+              <span style="font-weight: bold" data-bind="attr: { id : 'startDate'}, text: startDate"></span>
          </div>
          <div class="oj-flex-item">
              <label class="infoCardLabel" data-bind="attr: {for : 'endDate'}, text: 'End Date'"></label>
@@ -30,9 +30,19 @@
              <label class="infoCardLabel" data-bind="attr: {for : 'description'}, text: 'Description'"></label>
          </div>
          <div align="center" class="oj-flex-item">
-              <span  data-bind="attr: { id : 'description'}, text: description"></span>
+              <span style="font-weight: bold"  data-bind="attr: { id : 'description'}, text: description"></span>
          </div>
-         <button id= "button" data-bind="click: join, ojComponent: { component: 'ojButton', label: 'Join' }"></button>
+         <div class="oj-flex-item">
+           <label for="text-input2" data-bind="text: 'Feedback'"></label>
+         </div>
+         <div class="oj-flex-item">
+           <textarea id="text-input2" class="schedule-input-text" 
+                     data-bind="ojComponent: {component: 'ojTextArea',
+                                              rootAttributes: {style:'width: 210px;'},
+                                              value:feedback}"></textarea>
+         </div>
+         <button id= "button" data-bind="click: submitFeedback, ojComponent: { component: 'ojButton', label: 'Submit' }"></button>
+         <button id= "button" data-bind="click: quit, ojComponent: { component: 'ojButton', label: 'Quit' }"></button>
       </div>
     </div>
   </div>

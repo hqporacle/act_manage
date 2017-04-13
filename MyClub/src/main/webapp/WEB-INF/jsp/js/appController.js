@@ -38,18 +38,20 @@ define(['knockout', 'ojs/ojcore', 'ojs/ojrouter', 'ojs/ojarraytabledatasource', 
       // Save the theme so we can perform platform specific navigational animations
       var platform = oj.ThemeUtils.getThemeTargetPlatform();
 
+      self.userId = userId;
       // Static demo list view data
       self.data = [];
+      self.myData = [];
       /*for (var i = 0; i < 30; i++) {
         self.data.push({
           id: i, name: 'Customer ' + (i + 1), content: 'Customer ' + (i + 1) + ' info.'
         });
       }*/
-      var str ="name=" + "&startDate=" + "&endDate=" + "&deadline=";
+      var searchStr ="name=" + "&startDate=" + "&endDate=" + "&deadline=";
       $.ajax({
 			url : "activitySearch",
 			type : "post",
-			data : str, 
+			data : searchStr, 
 			success:function(data){ 
 				for (var i = 0; i < data.response.length; i++) {
 			        self.data.push({
@@ -64,7 +66,23 @@ define(['knockout', 'ojs/ojcore', 'ojs/ojrouter', 'ojs/ojarraytabledatasource', 
 				}
 			 }
 			});
-      
+      $.ajax({
+			url : "myActivities",
+			type : "get",
+			success:function(data){ 
+				for (var i = 0; i < data.activitys.length; i++) {
+			        self.myData.push({
+			          id: data.activitys[i].id, 
+			          name: data.activitys[i].name, 
+			          startDate : data.activitys[i].startDate,
+			          endDate : data.activitys[i].endDate,
+			          status : data.activitys[i].status,
+			          deadline : data.activitys[i].deadline,
+			          description : data.activitys[i].description
+			        })
+				}
+			 }
+			});
       // Nav Bar
       var navData = [
        {name: 'All Activities', id: 'customers',
@@ -91,9 +109,9 @@ define(['knockout', 'ojs/ojcore', 'ojs/ojrouter', 'ojs/ojarraytabledatasource', 
        'myActivities': {label: 'My Activities', value: {'level': 1}},
        'incidents': {label: 'Incidents', value: {'level': 1}},
        'userProfile': {label: 'User Profile', value: {'level': 1}},
-       'customers': {label: 'Customers', value: {'level': 1}, isDefault: true},
+       'customers': {label: 'All Activities', value: {'level': 1}, isDefault: true},
        'customerInfo': {label: 'Customer Info', value: {'level': 2}},
-       'activityInfo': {label: 'Customer Info', value: {'level': 2}}
+       'activityInfo': {label: 'Activity Info', value: {'level': 2}}
       });
       oj.Router.defaults['urlAdapter'] = new oj.Router.urlParamAdapter();
 

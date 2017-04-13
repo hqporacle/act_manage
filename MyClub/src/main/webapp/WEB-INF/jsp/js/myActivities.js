@@ -38,7 +38,7 @@ define(['knockout', 'appController', 'ojs/ojarraytabledatasource', 'ojs/ojlistvi
       // when tapping on the status bar for iOS
       self.scrollElem = document.body;
       
-      self.dataSource = new oj.ArrayTableDataSource(app.data, {idAttribute: 'id'});
+      self.dataSource = new oj.ArrayTableDataSource(app.myData, {idAttribute: 'id'});
 
       self.gotoContent = function(event, ui) {
          if (ui.option === 'currentItem' && ui.value != null) {
