@@ -2,11 +2,12 @@
 <rs:sqlResource xmlns:rs="http://restsql.org/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://restsql.org/schema SqlResource.xsd ">
     <query>
-        select id, username, password, real_name, role
-        from user
+        select user.id, username, password, real_name, role,identity,phone from user join user_profile on
+        user.id=user_profile.id
     </query>
     <metadata>
         <database default="club"/>
         <table name="user" role="Parent"/>
+        <table name="user_profile" role="ParentExtension"/>
     </metadata>
 </rs:sqlResource>

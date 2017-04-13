@@ -34,4 +34,12 @@ public class UserServiceImplTest {
         User user = userService.getUserByLogin("admin", "123456");
         assertEquals(user.getRole(), CommonInfo.role.ADMIN.ordinal());
     }
+
+    @Test
+    public void testUpdateUser() throws Exception {
+        UserService userService = new UserServiceImpl();
+        User user = userService.getUserByLogin("admin", "123456");
+        userService.updateUser(user.getId(), "123456789012345678", "12345678901");
+        assertEquals(user.getRole(), CommonInfo.role.ADMIN.ordinal());
+    }
 }

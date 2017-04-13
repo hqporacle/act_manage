@@ -66,7 +66,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         ArrayList<Activity> results = new ArrayList<Activity>();
         if (resultList.size() > 0) {
             // List<User> result = (ArrayList<User>) resultList.get(0).get("users");
-            for (Map<String, Object> result :  resultList) {
+            for (Map<String, Object> result : resultList) {
                 Activity activity = new Activity((Integer) result.get("id"), (String) result.get("name"), (Date) result.get("startDate"), (Date) result.get("endDate"), (Date) result.get("deadline"), (String) result.get("description"), (Integer) result.get("status"));
                 results.add(activity);
             }
@@ -139,7 +139,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         // Create the delete request
         final List<RequestValue> resIds = new ArrayList<RequestValue>(1);
         resIds.add(new RequestValue("activity_id", activityId));
-        resIds.add(new RequestValue("user_id", userId));
+        if (userId > 0)
+            resIds.add(new RequestValue("user_id", userId));
         params.clear();
         params.add(new RequestValue("participation_status", status));
         if (StringUtil.isNotEmpty(feedback))

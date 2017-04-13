@@ -44,7 +44,7 @@ public class ParticipationServiceImplTest {
     @Test
     public void testUpdateParticipant() throws Exception {
         ParticipationService participationService = new ParticipationServiceImpl();
-        participationService.updateParticipant(1, 1, CommonInfo.participation_status.READ.ordinal(), "。。。");
+        participationService.updateParticipant(1, 0, CommonInfo.participation_status.NEW.ordinal(), "。。。");
         assertEquals(participationService.getParticipantByActivityId(1).size(), 1);
     }
 

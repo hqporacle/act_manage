@@ -102,7 +102,7 @@ public class ActivityServiceImpl implements ActivityService {
         // Create the row
         final List<RequestValue> params = new ArrayList<RequestValue>();
 
-        // Create the delete request
+        // Create the update request
         final List<RequestValue> resIds = new ArrayList<RequestValue>(1);
         resIds.add(new RequestValue("id", activity.getId()));
         params.clear();

@@ -1,6 +1,7 @@
 package com.clemson.service;
 
 import com.clemson.model.User;
+import com.clemson.util.StringUtil;
 import org.restsql.core.*;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +70,34 @@ public class UserServiceImpl implements UserService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public void updateUser(int userId, String identity, String phone) throws SqlResourceException {
+        System.out.println("Create a new user");
+
+        // Get the resource object
+        final SqlResource sqlResource = Factory.getSqlResource("User");
+        // Create the row
+        final List<RequestValue> params = new ArrayList<RequestValue>();
+
+        // Create the update request
+        final List<RequestValue> resIds = new ArrayList<RequestValue>();
+        resIds.add(new RequestValue("id", userId));
+        params.clear();
+        if (StringUtil.isNotEmpty(identity))
+            params.add(new RequestValue("identity", identity));
+        if (StringUtil.isNotEmpty(phone))
+            params.add(new RequestValue("phone", phone));
+        final List<List<RequestValue>> childrenParams = null;
+        final RequestLogger requestLogger = Factory.getRequestLogger();
+        final Request request = Factory.getRequest(Request.Type.UPDATE, sqlResource.getName(), resIds,
+                params, childrenParams, requestLogger);
+
+        // Execute the delete request
+        final int rowsAffected = sqlResource.write(request).getRowsAffected();
+
+        System.out.println("\t" + requestLogger.getSql());
+        System.out.println("\tupdated " + rowsAffected + " row(s)\n");
     }
 }

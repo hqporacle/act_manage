@@ -5,6 +5,7 @@ import com.clemson.model.User;
 import com.clemson.service.ActivityService;
 import com.clemson.service.ParticipationService;
 
+import com.clemson.util.CommonInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.restsql.core.Config;
@@ -147,6 +148,7 @@ public class ActivityController {
         activity.setStatus(status);
         activity.setId(id);
         activityService.editActivity(activity);
+        participationService.updateParticipant(activity.getId(),0, CommonInfo.participation_status.NEW.ordinal(),"");
         return "redirect:/activities";
     }
     
