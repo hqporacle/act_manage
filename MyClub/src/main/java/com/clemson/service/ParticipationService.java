@@ -1,5 +1,6 @@
 package com.clemson.service;
 
+import com.clemson.model.Activity;
 import com.clemson.model.User;
 import org.restsql.core.SqlResourceException;
 
@@ -10,6 +11,8 @@ import java.util.List;
  */
 public interface ParticipationService {
     public List<User> getParticipantByActivityId(int activityId) throws SqlResourceException;
+
+    public List<Activity> getActivityByUserId(int userId) throws SqlResourceException;
 
     public void deleteParticipantByBothId(int activityId, int userId) throws SqlResourceException;
 

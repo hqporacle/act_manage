@@ -47,4 +47,10 @@ public class ParticipationServiceImplTest {
         participationService.updateParticipant(1, 1, CommonInfo.participation_status.READ.ordinal(), "。。。");
         assertEquals(participationService.getParticipantByActivityId(1).size(), 1);
     }
+
+    @Test
+    public void testGetActivityByUserId()throws  Exception{
+        ParticipationService participationService=new ParticipationServiceImpl();
+        assertEquals(participationService.getActivityByUserId(1).size(),2);
+    }
 }

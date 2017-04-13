@@ -47,6 +47,36 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
+    public List<Activity> getActivityByUserId(int userId) throws SqlResourceException {
+        // Get the resource object
+        SqlResource sqlResource = Factory.getSqlResource("ActivityUser");
+
+        // Create the request
+        List<RequestValue> params = new ArrayList<RequestValue>();
+        params.add(new RequestValue("user_id", userId, RequestValue.Operator.Equals));
+        //params.add(new RequestValue("username", name, RequestValue.Operator.Equals));
+        List<RequestValue> resId = null;
+        List<List<RequestValue>> childrenParams = null;
+        RequestLogger requestLogger = Factory.getRequestLogger();
+        Request request = Factory.getRequest(Request.Type.SELECT, sqlResource.getName(), params, resId,
+                childrenParams, requestLogger);
+
+        // Execute the request
+        List<Map<String, Object>> resultList = sqlResource.read(request);
+        ArrayList<Activity> results = new ArrayList<Activity>();
+        if (resultList.size() > 0) {
+            // List<User> result = (ArrayList<User>) resultList.get(0).get("users");
+            for (Map<String, Object> result :  resultList) {
+                Activity activity = new Activity((Integer) result.get("id"), (String) result.get("name"), (Date) result.get("startDate"), (Date) result.get("endDate"), (Date) result.get("deadline"), (String) result.get("description"), (Integer) result.get("status"));
+                results.add(activity);
+            }
+            System.out.println("\t" + requestLogger.getSql());
+            return results;
+        } else
+            return null;
+    }
+
+    @Override
     public void deleteParticipantByBothId(int activityId, int userId) throws SqlResourceException {
         // Get the resource object
         SqlResource sqlResource = Factory.getSqlResource("ActivityUser");
