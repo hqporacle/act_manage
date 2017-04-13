@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
         List<Map<String, Object>> resultList = sqlResource.read(request);
         if (resultList.size() > 0) {
             Map<String, Object> results = sqlResource.read(request).get(0);
-            User user = new User((Integer) results.get("id"), (String) results.get("name"), (String) results.get("password"), (String) results.get("realName"), (Integer) results.get("role"));
+            User user = new User((Integer) results.get("id"), (String) results.get("name"), (String) results.get("password"), (String) results.get("realName"), (Integer) results.get("role"), (String) results.get("identity"), (String) results.get("phone"));
             if (user != null && user.getPassword().equals(password)) {
                 return user;
             } else {

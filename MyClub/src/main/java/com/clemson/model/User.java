@@ -9,13 +9,17 @@ public class User {
     private String password;
     private String realName;
     private int role;
+    private String identity;
+    private String phone;
 
-    public User(int id, String username, String password, String realName, int role) {
+    public User(int id, String username, String password, String realName, int role, String identity, String phone) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.realName = realName;
         this.role = role;
+        this.identity = identity;
+        this.phone = phone;
     }
 
     public User() {
@@ -60,4 +64,21 @@ public class User {
     public void setRole(int role) {
         this.role = role;
     }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
 }
