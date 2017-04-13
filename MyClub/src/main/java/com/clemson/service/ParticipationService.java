@@ -12,7 +12,7 @@ import java.util.List;
 public interface ParticipationService {
     public List<User> getParticipantByActivityId(int activityId) throws SqlResourceException;
 
-    public List<Activity> getActivityByUserId(int userId) throws SqlResourceException;
+    public String getActivityByUserId(int userId) throws SqlResourceException;
 
     public void deleteParticipantByBothId(int activityId, int userId) throws SqlResourceException;
 

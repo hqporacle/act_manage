@@ -47,7 +47,7 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
-    public List<Activity> getActivityByUserId(int userId) throws SqlResourceException {
+    public String getActivityByUserId(int userId) throws SqlResourceException {
         // Get the resource object
         SqlResource sqlResource = Factory.getSqlResource("ActivityUser");
 
@@ -62,18 +62,8 @@ public class ParticipationServiceImpl implements ParticipationService {
                 childrenParams, requestLogger);
 
         // Execute the request
-        List<Map<String, Object>> resultList = sqlResource.read(request);
-        ArrayList<Activity> results = new ArrayList<Activity>();
-        if (resultList.size() > 0) {
-            // List<User> result = (ArrayList<User>) resultList.get(0).get("users");
-            for (Map<String, Object> result : resultList) {
-                Activity activity = new Activity((Integer) result.get("id"), (String) result.get("name"), (Date) result.get("startDate"), (Date) result.get("endDate"), (Date) result.get("deadline"), (String) result.get("description"), (Integer) result.get("status"));
-                results.add(activity);
-            }
-            System.out.println("\t" + requestLogger.getSql());
-            return results;
-        } else
-            return null;
+        final String results = sqlResource.read(request, "application/json");
+        return results;
     }
 
     @Override
