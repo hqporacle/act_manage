@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="favicon.ico"> 
     <link rel="stylesheet" href="css/libs/oj/v3.0.0/alta/oj-alta-min.css" type="text/css"/>
     
-    <script data-main="js/userActivities" src="js/libs/require/require.js"></script>
+    <script data-main="js/index" src="js/libs/require/require.js"></script>
     <style>
 
 	</style>
@@ -24,10 +24,21 @@
 <script>
 var userRole = <%=((User)session.getAttribute("user")).getRole()%>;
 var userId = <%=((User)session.getAttribute("user")).getId()%>;
+var arr = new Array();
+var i = 0;
+<c:forEach items="${activityList}" var="activity">
+	arr[i] = {
+			id : "${activity.id}",
+			name : "${activity.name}",
+			startDate : "${activity.startDate}",
+			endDate : "${activity.endDate}",
+			status : "${activity.status}",
+			deadline : "${activity.deadline}",
+			description : "${activity.description}"
+	}
+	i++;
+</c:forEach>
 </script>
-<div id="page">
-  <div data-bind="ojModule: moduleConfig">
-  </div>
 <div class="oj-applayout-fixed-bottom">
     <!-- Nav Bar -->
     <div id="navbar" role="navigation" class="oj-hybrid-applayout-navbar-app">
@@ -44,6 +55,6 @@ var userId = <%=((User)session.getAttribute("user")).getId()%>;
       </script>
     </div>
   </div>
-</div>
+    
 
 </html>

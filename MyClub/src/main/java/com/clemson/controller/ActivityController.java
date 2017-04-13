@@ -58,16 +58,17 @@ public class ActivityController {
         Date startDate = new Date();
         Date endDate = new Date();
         Date deadline = new Date();
+        
 		try {
-			if (!request.getParameter("startDate").equals("undefined")) {
+			if (!request.getParameter("startDate").equals("undefined") && !request.getParameter("startDate").isEmpty()) {
 				startDate = sdf.parse(request.getParameter("startDate"));	
 				 activity.setStartDate(startDate);
 			}
-			if (!request.getParameter("endDate").equals("undefined")) {
+			if (!request.getParameter("endDate").equals("undefined") && !request.getParameter("startDate").isEmpty()) {
 				endDate = sdf.parse(request.getParameter("endDate"));
 				activity.setEndDate(endDate);
 			}
-			if (!request.getParameter("deadline").equals("undefined")) {
+			if (!request.getParameter("deadline").equals("undefined") && !request.getParameter("startDate").isEmpty()) {
 				deadline = sdf.parse(request.getParameter("deadline"));	
 				 activity.setDeadline(deadline);
 			}
@@ -86,6 +87,7 @@ public class ActivityController {
             detailsJson.put("startDate", item.getStartDate());
             detailsJson.put("endDate", item.getEndDate());
             detailsJson.put("deadline", item.getDeadline());
+            detailsJson.put("status", item.getStatus());
             jsonArray.put(detailsJson);
         }
         responseDetailsJson.put("response", jsonArray);

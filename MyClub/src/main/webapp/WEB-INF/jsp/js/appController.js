@@ -35,24 +35,44 @@ define(['knockout', 'ojs/ojcore', 'ojs/ojrouter', 'ojs/ojarraytabledatasource', 
   function(ko, oj) {
     function ControllerViewModel() {
       var self = this;
-
       // Save the theme so we can perform platform specific navigational animations
       var platform = oj.ThemeUtils.getThemeTargetPlatform();
 
       // Static demo list view data
       self.data = [];
-      for (var i = 0; i < 30; i++) {
+      /*for (var i = 0; i < 30; i++) {
         self.data.push({
           id: i, name: 'Customer ' + (i + 1), content: 'Customer ' + (i + 1) + ' info.'
         });
-      }
+      }*/
+      var str ="name=" + "&startDate=" + "&endDate=" + "&deadline=";
+      $.ajax({
+			url : "activitySearch",
+			type : "post",
+			data : str, 
+			success:function(data){ 
+				for (var i = 0; i < data.response.length; i++) {
+			        self.data.push({
+			          id: data.response[i].id, 
+			          name: data.response[i].name, 
+			          startDate : data.response[i].startDate,
+			          endDate : data.response[i].endDate,
+			          status : data.response[i].status,
+			          deadline : data.response[i].deadline,
+			          description : data.response[i].description
+			        })
+				}
+			 }
+			});
       
       // Nav Bar
       var navData = [
-       {name: 'All Activities', id: 'dashboard',
+       {name: 'All Activities', id: 'customers',
          iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'},
-       {name: 'My Activities', id: 'incidents',
-         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'}
+       {name: 'My Activities', id: 'myActivities',
+         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'},
+         {name: 'User Profile', id: 'userProfile',
+             iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'}
       ];
       self.navDataSource = new oj.ArrayTableDataSource(navData, {idAttribute: 'id'});
       self.navBarChange = function(event, ui) {
@@ -68,10 +88,12 @@ define(['knockout', 'ojs/ojcore', 'ojs/ojrouter', 'ojs/ojarraytabledatasource', 
       // Router setup
       self.router = oj.Router.rootInstance;
       self.router.configure({
-       'dashboard': {label: 'Dashboard', value: {'level': 1}},
+       'myActivities': {label: 'My Activities', value: {'level': 1}},
        'incidents': {label: 'Incidents', value: {'level': 1}},
+       'userProfile': {label: 'User Profile', value: {'level': 1}},
        'customers': {label: 'Customers', value: {'level': 1}, isDefault: true},
-       'customerInfo': {label: 'Customer Info', value: {'level': 2}}
+       'customerInfo': {label: 'Customer Info', value: {'level': 2}},
+       'activityInfo': {label: 'Customer Info', value: {'level': 2}}
       });
       oj.Router.defaults['urlAdapter'] = new oj.Router.urlParamAdapter();
 
