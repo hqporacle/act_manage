@@ -29,6 +29,7 @@
 	<mvc:resources mapping="/css/**" location="/WEB-INF/jsp/css/" />
 	<mvc:resources mapping="/font/**" location="/WEB-INF/jsp/font/" />
 	<mvc:resources mapping="/fonts/**" location="/WEB-INF/jsp/fonts/" />
+	<mvc:resources mapping="/html/**" location="/WEB-INF/jsp/html/" />
 	
 	<mvc:resources mapping="/pdf/**" location="/WEB-INF/classes/pdf/" />
 	<mvc:resources mapping="/upload/**" location="/WEB-INF/upload/" />

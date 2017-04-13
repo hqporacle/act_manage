@@ -139,6 +139,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
          				data : str, 
          				success:function(data){ 
          					$('#addDialog').ojDialog('close');
+         					//location.reload();
          					}
          				});
                 };
@@ -222,6 +223,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojinputtext', 'ojs/ojdatetimepi
             				data : str, 
             				success:function(data){ 
             					 console.log("Delete it successfully!");
+            					 //location.reload();
             					}
             				});
                     	break;
