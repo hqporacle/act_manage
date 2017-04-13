@@ -183,11 +183,15 @@ CREATE TABLE `participation` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `activity_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
+  `participation_status` int(10) unsigned NOT NULL,
+  `feedback` mediumtext,
   PRIMARY KEY (`activity_id`,`user_id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_participation_user_id_idx` (`user_id`),
   KEY `fk_participation_activity_id_idx` (`activity_id`),
+  KEY `fk_participation_status_id_idx` (`participation_status`),
   CONSTRAINT `fk_participation_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_participation_status` FOREIGN KEY (`participation_status`) REFERENCES `participation_status` (`pstatus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_participation_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -226,6 +230,30 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `participation_status`
+--
+
+DROP TABLE IF EXISTS `participation_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `participation_status` (
+  `pstatus_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `pstatus` varchar(10) NOT NULL,
+  PRIMARY KEY (`pstatus_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `participation_status`
+--
+
+LOCK TABLES `participation_status` WRITE;
+/*!40000 ALTER TABLE `participation_status` DISABLE KEYS */;
+INSERT INTO `participation_status` VALUES (1,'read'),(2,'new');
+/*!40000 ALTER TABLE `participation_status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -239,6 +267,7 @@ CREATE TABLE `user` (
   `real_name` varchar(40) NOT NULL,
   `role` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `fk_user_role_id_idx` (`role`),
   CONSTRAINT `fk_user_role_id` FOREIGN KEY (`role`) REFERENCES `user_role` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -357,4 +386,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-01 11:42:51
+-- Dump completed on 2017-04-13 10:45:06
