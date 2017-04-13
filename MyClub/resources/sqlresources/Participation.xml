@@ -2,7 +2,7 @@
 <rs:sqlResource xmlns:rs="http://restsql.org/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://restsql.org/schema SqlResource.xsd ">
     <query>
-        select id,activity_id,user_id from participation
+        select id,activity_id,user_id,participation_status,feedback from participation
     </query>
     <metadata>
         <database default="club"/>

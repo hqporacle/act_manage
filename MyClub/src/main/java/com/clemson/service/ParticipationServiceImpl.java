@@ -2,6 +2,7 @@ package com.clemson.service;
 
 import com.clemson.model.Activity;
 import com.clemson.model.User;
+import com.clemson.util.StringUtil;
 import org.restsql.core.*;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         List<Map<String, Object>> resultList = sqlResource.read(request);
         ArrayList<User> results = new ArrayList<User>();
         if (resultList.size() > 0) {
-           // List<User> result = (ArrayList<User>) resultList.get(0).get("users");
-            for (Map<String, Object> result : (List<Map<String, Object>>)resultList.get(0).get("users")) {
+            // List<User> result = (ArrayList<User>) resultList.get(0).get("users");
+            for (Map<String, Object> result : (List<Map<String, Object>>) resultList.get(0).get("users")) {
                 User re = new User((Integer) result.get("userId"), (String) result.get("username"), (String) result.get("password"), (String) result.get("real_name"), (Integer) result.get("role"));
                 results.add(re);
             }
@@ -95,5 +96,33 @@ public class ParticipationServiceImpl implements ParticipationService {
 
         System.out.println("\t" + requestLogger.getSql());
         System.out.println("\tinserted " + rowsAffected + " row(s)");
+    }
+
+    @Override
+    public void updateParticipant(int activityId, int userId, int status, String feedback) throws SqlResourceException {
+        // Get the resource object
+        SqlResource sqlResource = Factory.getSqlResource("Participation");
+
+        // Create the row
+        final List<RequestValue> params = new ArrayList<RequestValue>();
+
+        // Create the delete request
+        final List<RequestValue> resIds = new ArrayList<RequestValue>(1);
+        resIds.add(new RequestValue("activity_id", activityId));
+        resIds.add(new RequestValue("user_id", userId));
+        params.clear();
+        params.add(new RequestValue("participation_status", status));
+        if (StringUtil.isNotEmpty(feedback))
+            params.add(new RequestValue("feedback", feedback));
+        final List<List<RequestValue>> childrenParams = null;
+        final RequestLogger requestLogger = Factory.getRequestLogger();
+        final Request request = Factory.getRequest(Request.Type.UPDATE, sqlResource.getName(), resIds,
+                params, childrenParams, requestLogger);
+
+        // Execute the delete request
+        final int rowsAffected = sqlResource.write(request).getRowsAffected();
+
+        System.out.println("\t" + requestLogger.getSql());
+        System.out.println("\tupdated " + rowsAffected + " row(s)\n");
     }
 }

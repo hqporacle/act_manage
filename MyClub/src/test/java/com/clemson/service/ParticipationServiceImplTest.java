@@ -1,6 +1,7 @@
 package com.clemson.service;
 
 import com.clemson.model.User;
+import com.clemson.util.CommonInfo;
 import org.restsql.core.Config;
 import org.testng.annotations.Test;
 
@@ -36,7 +37,14 @@ public class ParticipationServiceImplTest {
     @Test
     public void testInsertParticipant() throws Exception {
         ParticipationService participationService = new ParticipationServiceImpl();
-        participationService.insertParticipant(1, 2);
-        assertEquals(participationService.getParticipantByActivityId(1).size(), 2);
+        participationService.insertParticipant(1, 1);
+        assertEquals(participationService.getParticipantByActivityId(1).size(), 1);
+    }
+
+    @Test
+    public void testUpdateParticipant() throws Exception {
+        ParticipationService participationService = new ParticipationServiceImpl();
+        participationService.updateParticipant(1, 1, CommonInfo.participation_status.READ.ordinal(), "。。。");
+        assertEquals(participationService.getParticipantByActivityId(1).size(), 1);
     }
 }

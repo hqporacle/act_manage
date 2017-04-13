@@ -4,7 +4,7 @@
     <query>
         select activity.id, activity.name,
         startDate,endDate,deadline,description,status,user.id userId,username,password,real_name,role,participation.id
-        pid,activity_id,user_id
+        pid,activity_id,user_id,participation_status,feedback
         from activity join participation on activity.id=participation.activity_id join user on
         participation.user_id=user.id
     </query>

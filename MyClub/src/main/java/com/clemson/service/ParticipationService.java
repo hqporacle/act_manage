@@ -14,4 +14,6 @@ public interface ParticipationService {
     public void deleteParticipantByBothId(int activityId, int userId) throws SqlResourceException;
 
     public void insertParticipant(int activityId, int userId) throws SqlResourceException;
+
+    public void updateParticipant(int activityId, int userId, int status, String feedback) throws SqlResourceException;
 }

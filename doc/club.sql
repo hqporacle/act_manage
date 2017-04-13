@@ -33,7 +33,7 @@ CREATE TABLE `activity` (
   PRIMARY KEY (`id`),
   KEY `fk_activity_status_idx` (`status`),
   CONSTRAINT `fk_activity_status` FOREIGN KEY (`status`) REFERENCES `activity_status` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
+INSERT INTO `activity` VALUES (1,'first activity','2017-05-13','2017-05-16','2017-05-13','第一测试活动',2),(2,'unit test activity','2017-04-10','2017-05-10','2017-04-05','activity for unit test',1);
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -183,7 +184,7 @@ CREATE TABLE `participation` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `activity_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
-  `participation_status` int(10) unsigned NOT NULL,
+  `participation_status` int(10) unsigned NOT NULL DEFAULT '1',
   `feedback` mediumtext,
   PRIMARY KEY (`activity_id`,`user_id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -193,7 +194,7 @@ CREATE TABLE `participation` (
   CONSTRAINT `fk_participation_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_participation_status` FOREIGN KEY (`participation_status`) REFERENCES `participation_status` (`pstatus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_participation_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,6 +203,7 @@ CREATE TABLE `participation` (
 
 LOCK TABLES `participation` WRITE;
 /*!40000 ALTER TABLE `participation` DISABLE KEYS */;
+INSERT INTO `participation` VALUES (1,1,1,1,NULL);
 /*!40000 ALTER TABLE `participation` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -270,7 +272,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `fk_user_role_id_idx` (`role`),
   CONSTRAINT `fk_user_role_id` FOREIGN KEY (`role`) REFERENCES `user_role` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,6 +281,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'admin','123456','超级棒',1),(2,'first','123456','第一用户',2);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -341,7 +344,7 @@ CREATE TABLE `user_profile` (
   `phone` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_profile_user_id` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,6 +353,7 @@ CREATE TABLE `user_profile` (
 
 LOCK TABLES `user_profile` WRITE;
 /*!40000 ALTER TABLE `user_profile` DISABLE KEYS */;
+INSERT INTO `user_profile` VALUES (1,'',''),(2,'','');
 /*!40000 ALTER TABLE `user_profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,4 +390,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-13 10:45:06
+-- Dump completed on 2017-04-13 11:08:23

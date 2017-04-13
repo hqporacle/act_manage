@@ -40,7 +40,7 @@ public class ActivityServiceImplTest {
     public void getAllActivityTest() throws SqlResourceException {
         ActivityService activityService = new ActivityServiceImpl();
         List<Activity> result = activityService.getAllActivity();
-        assertEquals(result.size(), 3);
+        assertEquals(result.size(), 0);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ActivityServiceImplTest {
             e.printStackTrace();
         }
         activityService.insertActivity(activity);
-        assertEquals(activityService.getAllActivity().size(), 4);
+        assertEquals(activityService.getAllActivity().size(), 2);
     }
 
     @Test
